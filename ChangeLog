@@ -5,3 +5,6 @@
 
 	* src/util/edac-ctl : Fix typo preventing --register-labels from
 	  doing anything.
+
+	* src/util/edac-util.c : Generate error if a report is requested
+	  but no memory controller data is found in sysfs.

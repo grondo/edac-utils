@@ -174,7 +174,12 @@ int main (int ac, char *av[])
         return (print_status (&prog_ctx));
     }
 
-    generate_reports (&prog_ctx);
+    if (edac_mc_count (prog_ctx.edac)) {
+        generate_reports (&prog_ctx);
+    }
+    else {
+        log_err ("No memory controller data found.\n");
+    }
 
     prog_ctx_fini (&prog_ctx);
 
