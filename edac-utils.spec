@@ -20,6 +20,8 @@ of an init script which makes sure EDAC drivers and DIMM labels
 are loaded at system startup, as well as a library and utility
 for reporting current error counts from the EDAC sysfs files.
 
+
+
 %prep 
 %setup
 
@@ -46,6 +48,7 @@ if [ $1 = 0 ]; then
 fi
 
 %files
+%doc README NEWS ChangeLog DISCLAIMER
 %defattr(-,root,root,0755)
 %{_sbindir}/edac-ctl
 %{_bindir}/edac-util
