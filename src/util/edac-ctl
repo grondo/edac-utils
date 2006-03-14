@@ -59,7 +59,7 @@ EOF
 parse_cmdline();
 
 if (  $conf{opt}{mainboard} || $conf{opt}{print_labels} 
-   || $conf{opt}{register_lables}) {
+   || $conf{opt}{register_labels}) {
 
     get_mainboard_info();
 

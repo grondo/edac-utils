@@ -2,3 +2,6 @@
 	* : Initial commit.
 
 	* : tag version 0.1.
+
+	* src/util/edac-ctl : Fix typo preventing --register-labels from
+	  doing anything.
