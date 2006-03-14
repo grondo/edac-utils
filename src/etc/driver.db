@@ -1,0 +1,20 @@
+# PCI IDs for bluesmoke drivers
+#
+#  Format is 
+#   Driver xxxx:
+#      VENDOR_ID:PCI_ID,PCI_ID,PCI_ID,...
+#      VENDOR_ID:PCI_ID,...
+
+Driver e7xxx:
+ 0x8086:0x255d 0x2540 0x254c 0x2550
+
+Driver e752x:
+ 0x8086:0x3590 0x359e
+ 
+Driver i82860:
+ 0x8086:0x2531
+
+Driver k8:
+ 0x1022:0x1100
+   
+   

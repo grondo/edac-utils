@@ -1,0 +1,14 @@
+#!/bin/sh
+##
+# $Id: bootstrap 412 2005-07-19 22:40:47Z dun $
+##
+
+set -x
+aclocal -I config || exit 1
+libtoolize --automake --copy --force || exit 1
+autoheader || exit 1
+automake --add-missing --copy --force-missing --gnu || exit 1
+autoconf --force --warnings=all || exit 1
+rm -fr autom4te*.cache
+exit 0
+

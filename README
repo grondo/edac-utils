@@ -1,0 +1,5 @@
+This package provides a very simple interface for managing the 
+kernel EDAC drivers. It includes a library interface for reading
+status and error counts from sysfs, and a utility which uses
+that interface to create standard reports. An initscript to load
+EDAC drivers and DIMM labels is also included.
