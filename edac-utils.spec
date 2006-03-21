@@ -48,8 +48,8 @@ if [ $1 = 0 ]; then
 fi
 
 %files
-%doc README NEWS ChangeLog DISCLAIMER
 %defattr(-,root,root,0755)
+%doc README NEWS ChangeLog DISCLAIMER
 %{_sbindir}/edac-ctl
 %{_bindir}/edac-util
 %{_libdir}/*
