@@ -1,3 +1,9 @@
+Version 0.3 (2006-03-21):
+ - Fix permissions in specfile.
+ - Omit warnings when reads fail from an EDAC sysfs files.
+ - Fix possible hang in edac-ctl when registering dimm labels.
+  
+
 Version 0.2 (2006-03-16):
  - Fixed edac-ctl bug in --register-labels.
  - Print error in edac-util --report if no memory controllers are found.
