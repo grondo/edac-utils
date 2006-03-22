@@ -317,6 +317,11 @@ edac_channel_refresh (struct edac_csrow *csrow, int id)
     struct edac_channel *chan = &csrow->info.channel[id];
     int                  rc;
 
+    /* On some EDAC implementations ch1_* files may exist
+     *  even though nr_channels = 1. Returning an error here
+     *  should suffice to mark the channel invalid.
+     */
+
     if (get_sysfs_uint_attr (dev, &chan->ce_count, "ch%d_ce_count", id) < 0) 
         return (-1);
     rc = get_sysfs_string_attr ( dev, chan->dimm_label, 
@@ -483,9 +488,7 @@ get_sysfs_uint_attr (struct sysfs_device *dev, unsigned int *valp,
         return (-1);
  
     if (!(attr = sysfs_get_device_attr (dev, buf))) {
-        fprintf (stderr, "sysfs_get_device_attr(%s): %s\n", 
-                buf, strerror (errno));
-        return -EINVAL;
+        return (-1);
     }
 
     *valp = strtoul (attr->value, &p, 10);
@@ -516,8 +519,9 @@ get_sysfs_string_attr (struct sysfs_device *dev, char *dest, int len,
     if ((n < 0) || (n > sizeof (buf)))
         return (-1);
 
-    if (!(attr = sysfs_get_device_attr (dev, buf)))
+    if (!(attr = sysfs_get_device_attr (dev, buf))) {
         return (-1);
+    }
 
     /*  Terminate any final newline 
      */

@@ -2,6 +2,10 @@
 
 	* edac.spec : Fix permissions in specfile.
 
+	* src/lib/libedac.c : Quiet warnings when reading from EDAC sysfs
+	  files. In some EDAC implementations, this might just mean that
+	  the channel corresponding to the file does not exist.
+
 2006-03-16 Mark Grondona <mgrondona@llnl.gov>
 
 	* : tag version 0.2.
