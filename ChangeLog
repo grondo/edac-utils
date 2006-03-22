@@ -6,6 +6,12 @@
 	  files. In some EDAC implementations, this might just mean that
 	  the channel corresponding to the file does not exist.
 
+	* src/util/edac-ctl : Use syswrite instead of print to write
+	  to the dimm_labels files in /sys. Avoids hang in EDAC 
+	  implementations that return 0 for writes to these files.
+
+	* : tag version 0.3.
+
 2006-03-16 Mark Grondona <mgrondona@llnl.gov>
 
 	* : tag version 0.2.

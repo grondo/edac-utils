@@ -372,7 +372,7 @@ sub register_dimm_labels
                     next;
                 }
 
-                print DL $$lref{$vendor}{$model}{$mc}{$row}{$chan};
+                syswrite DL, $$lref{$vendor}{$model}{$mc}{$row}{$chan};
 
                 close (DL);
 
