@@ -1,6 +1,6 @@
 Version 0.3 (2006-03-21):
  - Fix permissions in specfile.
- - Omit warnings when reads fail from an EDAC sysfs files.
+ - Omit warnings when reads fail from EDAC sysfs files.
  - Fix possible hang in edac-ctl when registering dimm labels.
   
 
