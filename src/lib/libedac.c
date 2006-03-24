@@ -101,11 +101,14 @@ static int edac_totals_refresh (edac_handle *edac);
 
 static inline void * edac_dlist_next (struct dlist *l);
 
+static struct sysfs_device * _sysfs_open_device_tree (const char *path);
+
 static int get_sysfs_string_attr (struct sysfs_device *dev, char *dest, 
         int len, const char *format, ...);
 
 static int get_sysfs_uint_attr (struct sysfs_device *dev, unsigned int *valp, 
         const char *format, ...);
+
 
 /*****************************************************************************
  *  Extern Functions
@@ -122,7 +125,6 @@ edac_handle * edac_handle_create (void)
 
     return (edac);
 }
-
 int edac_handle_init (struct edac_handle *edac)
 {
     if (edac == NULL)
@@ -132,7 +134,7 @@ int edac_handle_init (struct edac_handle *edac)
         return (edac_handle_reload (edac));
     }
 
-    if (!(edac->dev = sysfs_open_device_tree (edac_sysfs_path))) {
+    if (!(edac->dev = _sysfs_open_device_tree (edac_sysfs_path))) {
         edac->error_num = EDAC_OPEN_FAILED;
         return (-1);
     }
@@ -602,6 +604,74 @@ static int edac_handle_reload (edac_handle *edac)
 
     return (0);
 }
+
+
+#if LIBSYSFS_2_0
+
+static void
+_null (void *x)
+{
+    return;
+}
+
+static void
+_dev_create_child_list (struct sysfs_device *dev)
+{
+    dev->children = dlist_new_with_delete (sizeof (struct sysfs_device), _null);
+}
+
+static struct sysfs_device * 
+_sysfs_open_device_tree (const char *path)
+{
+    struct sysfs_device * dev;
+    struct sysfs_device * child;
+    struct dlist *        dirs;
+    char *                subdir;
+
+    if (!(dev = sysfs_open_device_path (path)))
+        return (NULL);
+
+    if (!(dirs = sysfs_open_directory_list (path)))
+        return (dev);
+
+    dlist_for_each_data (dirs, subdir, char) {
+        int  n;
+        char fq_subdir [SYSFS_PATH_MAX + 1];
+
+        memset (fq_subdir, 0, sizeof (fq_subdir));
+
+        if (!sysfs_path_is_dir (subdir)) {
+            continue;
+        }
+
+        n = snprintf (fq_subdir, SYSFS_PATH_MAX, "%s/%s", path, subdir);
+
+        if ((n < 0) || (n > SYSFS_PATH_MAX)) {
+            continue;
+        }
+
+        if (!(child = _sysfs_open_device_tree (fq_subdir))) {
+            continue;
+        }
+
+        if (!dev->children) {
+            _dev_create_child_list (dev);
+        }
+
+        dlist_push (dev->children, child);
+    }
+
+    sysfs_close_list (dirs);
+
+    return (dev);
+}
+#else
+static struct sysfs_device *
+_sysfs_open_device_tree (const char *path)
+{
+    return (sysfs_open_device_tree (path));
+}
+#endif /* LIBSYSFS_2_0 */
 
 
 /* vi: ts=4 sw=4 expandtab 

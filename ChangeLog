@@ -4,6 +4,9 @@
 
 	* configure, config.h.in : re-run ./bootstrap.
 
+	* src/lib/libedac.c : Add _sysfs_open_device_tree () for missing
+	  functionality when using libsysfs-2.0.
+
 2006-03-21 Mark Grondona <mgrondona@llnl.gov>
 
 	* edac.spec : Fix permissions in specfile.
