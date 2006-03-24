@@ -7,6 +7,9 @@
 	* src/lib/libedac.c : Add _sysfs_open_device_tree () for missing
 	  functionality when using libsysfs-2.0.
 
+	* configure, config/x_ac_libsysfs.m4 : Use AC_LINK_IFELSE instead
+	  of AC_COMPILE_IFELSE.
+
 2006-03-21 Mark Grondona <mgrondona@llnl.gov>
 
 	* edac.spec : Fix permissions in specfile.

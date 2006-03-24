@@ -19,8 +19,8 @@ AC_DEFUN([X_AC_LIBSYSFS],
   AC_MSG_CHECKING([for libsysfs])
   savedLIBS="$LIBS"
   LIBS="-lsysfs $LIBS"
-  AC_COMPILE_IFELSE(
-     [AC_LANG_SOURCE([[#include <sysfs/libsysfs.h>]], 
+  AC_LINK_IFELSE(
+     [AC_LANG_PROGRAM([[#include <sysfs/libsysfs.h>]], 
                      [[char buf[4096]; sysfs_get_mnt_path (buf, 4096)]])],
      [ac_have_libsysfs=yes], 
      [ac_have_sysfs=no]
@@ -33,12 +33,14 @@ AC_DEFUN([X_AC_LIBSYSFS],
     AC_MSG_ERROR("Unable to find working libsysfs library!")
   fi
 
-  AC_COMPILE_IFELSE(
-	  [AC_LANG_SOURCE([[#include <sysfs/libsysfs.h>]],
-		              [[struct dlist *l = syssf_open_directory_list("/sys")]])],
+  AC_MSG_CHECKING([for libsysfs 2.0])
+  AC_LINK_IFELSE(
+	  [AC_LANG_PROGRAM([[#include <sysfs/libsysfs.h>]],
+		              [[struct dlist *l = syssf_open_directory_list("/sys");]])],
 	  [AC_DEFINE([LIBSYSFS_2_0], [1], [Define to 1 if libsysfs-2.0])],
-	  []
+	  [ac_have_libsysfs_2_0=no]
   )
+  AC_MSG_RESULT([${ac_have_libsysfs_2_0=yes}]) 
 
   LIBS=$saveLIBS;
   AC_SUBST([LIBSYSFS_LIBS])

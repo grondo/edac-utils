@@ -19644,10 +19644,17 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 #include <sysfs/libsysfs.h>
+int
+main ()
+{
+char buf[4096]; sysfs_get_mnt_path (buf, 4096)
+  ;
+  return 0;
+}
 _ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>conftest.er1
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
   ac_status=$?
   grep -v '^ *+' conftest.er1 >conftest.err
   rm -f conftest.er1
@@ -19661,7 +19668,7 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest.$ac_objext'
+	 { ac_try='test -s conftest$ac_exeext'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -19675,7 +19682,8 @@ sed 's/^/| /' conftest.$ac_ext >&5
 ac_have_sysfs=no
 
 fi
-rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
   echo "$as_me:$LINENO: result: ${ac_have_libsysfs=no}" >&5
 echo "${ECHO_T}${ac_have_libsysfs=no}" >&6
   if test "$ac_have_libsysfs" = "yes"; then
@@ -19691,6 +19699,8 @@ echo "$as_me: error: \"Unable to find working libsysfs library!\"" >&2;}
    { (exit 1); exit 1; }; }
   fi
 
+  echo "$as_me:$LINENO: checking for libsysfs 2.0" >&5
+echo $ECHO_N "checking for libsysfs 2.0... $ECHO_C" >&6
   cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
@@ -19698,10 +19708,17 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 #include <sysfs/libsysfs.h>
+int
+main ()
+{
+struct dlist *l = syssf_open_directory_list("/sys");
+  ;
+  return 0;
+}
 _ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>conftest.er1
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
   ac_status=$?
   grep -v '^ *+' conftest.er1 >conftest.err
   rm -f conftest.er1
@@ -19715,7 +19732,7 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest.$ac_objext'
+	 { ac_try='test -s conftest$ac_exeext'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -19730,10 +19747,13 @@ else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-
+ac_have_libsysfs_2_0=no
 
 fi
-rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+  echo "$as_me:$LINENO: result: ${ac_have_libsysfs_2_0=yes}" >&5
+echo "${ECHO_T}${ac_have_libsysfs_2_0=yes}" >&6
 
   LIBS=$saveLIBS;
 
