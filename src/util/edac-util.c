@@ -50,7 +50,7 @@ struct option opt_table[] = {
     {  NULL,          0, NULL,  0  }
 };
 
-const char * const opt_string = "hqvsr:";
+const char * const opt_string = "hqvsr::";
 
 #define USAGE "\
 Usage: %s [OPTIONS]\n\

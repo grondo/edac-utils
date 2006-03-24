@@ -10,6 +10,9 @@
 	* configure, config/x_ac_libsysfs.m4 : Use AC_LINK_IFELSE instead
 	  of AC_COMPILE_IFELSE.
 
+	* src/util/edac-util.c : Fix option string so that '-r' can have
+	  optional argument.
+
 2006-03-21 Mark Grondona <mgrondona@llnl.gov>
 
 	* edac.spec : Fix permissions in specfile.
