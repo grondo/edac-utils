@@ -33,6 +33,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to 1 if libsysfs-2.0 */
+#undef LIBSYSFS_2_0
+
 /* Define the project alias string (name-ver or name-ver-rel). */
 #undef META_ALIAS
 

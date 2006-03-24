@@ -1,3 +1,9 @@
+2006-03-24 Mark Grondona <mgrondona@llnl.gov>
+
+	* config/x_ac_libsysfs.m4 : Check for libsysfs 2.0.
+
+	* configure, config.h.in : re-run ./bootstrap.
+
 2006-03-21 Mark Grondona <mgrondona@llnl.gov>
 
 	* edac.spec : Fix permissions in specfile.
