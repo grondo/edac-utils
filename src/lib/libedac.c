@@ -606,7 +606,18 @@ static int edac_handle_reload (edac_handle *edac)
 }
 
 
-#if LIBSYSFS_2_0
+#if HAVE_SYSFS_OPEN_DEVICE_TREE
+
+static struct sysfs_device *
+_sysfs_open_device_tree (const char *path)
+{
+    return (sysfs_open_device_tree (path));
+}
+
+#else
+
+/*  libsysfs-2.0.0 did not implement sysfs_open_device_tree(). Replicate here.
+ */
 
 static void
 _null (void *x)
@@ -665,13 +676,7 @@ _sysfs_open_device_tree (const char *path)
 
     return (dev);
 }
-#else
-static struct sysfs_device *
-_sysfs_open_device_tree (const char *path)
-{
-    return (sysfs_open_device_tree (path));
-}
-#endif /* LIBSYSFS_2_0 */
+#endif /* HAVE_SYSFS_OPEN_DEVICE_TREE */
 
 
 /* vi: ts=4 sw=4 expandtab 

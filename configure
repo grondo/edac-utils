@@ -19699,8 +19699,8 @@ echo "$as_me: error: \"Unable to find working libsysfs library!\"" >&2;}
    { (exit 1); exit 1; }; }
   fi
 
-  echo "$as_me:$LINENO: checking for libsysfs 2.0" >&5
-echo $ECHO_N "checking for libsysfs 2.0... $ECHO_C" >&6
+  echo "$as_me:$LINENO: checking for sysfs_open_device_tree in libsysfs" >&5
+echo $ECHO_N "checking for sysfs_open_device_tree in libsysfs... $ECHO_C" >&6
   cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
@@ -19711,7 +19711,8 @@ cat >>conftest.$ac_ext <<_ACEOF
 int
 main ()
 {
-struct dlist *l = syssf_open_directory_list("/sys");
+struct sysfs_device *d = sysfs_open_device_tree("/sys");
+		    sysfs_close_device(d);
   ;
   return 0;
 }
@@ -19740,20 +19741,20 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   (exit $ac_status); }; }; then
 
 cat >>confdefs.h <<\_ACEOF
-#define LIBSYSFS_2_0 1
+#define HAVE_SYSFS_OPEN_DEVICE_TREE 1
 _ACEOF
 
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-ac_have_libsysfs_2_0=no
+ac_have_sysfs_open_device_tree=no
 
 fi
 rm -f conftest.err conftest.$ac_objext \
       conftest$ac_exeext conftest.$ac_ext
-  echo "$as_me:$LINENO: result: ${ac_have_libsysfs_2_0=yes}" >&5
-echo "${ECHO_T}${ac_have_libsysfs_2_0=yes}" >&6
+  echo "$as_me:$LINENO: result: ${ac_have_sysfs_open_device_tree=yes}" >&5
+echo "${ECHO_T}${ac_have_sysfs_open_device_tree=yes}" >&6
 
   LIBS=$saveLIBS;
 

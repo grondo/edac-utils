@@ -1,3 +1,11 @@
+2006-03-27 Mark Grondona <mgrondona@llnl.gov>
+
+	* config/x_ac_libsysfs.m4, configure, config.h.in, 
+	  src/lib/libedac.c : 
+	  Check for sysfs_open_device_tree () in libsysfs instead of simply
+	  libsysfs-2.0 presence. (Later versions of libsysfs should have 
+	  this function.)
+
 2006-03-24 Mark Grondona <mgrondona@llnl.gov>
 
 	* config/x_ac_libsysfs.m4 : Check for libsysfs 2.0.

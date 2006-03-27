@@ -33,14 +33,17 @@ AC_DEFUN([X_AC_LIBSYSFS],
     AC_MSG_ERROR("Unable to find working libsysfs library!")
   fi
 
-  AC_MSG_CHECKING([for libsysfs 2.0])
+  AC_MSG_CHECKING([for sysfs_open_device_tree in libsysfs])
   AC_LINK_IFELSE(
-	  [AC_LANG_PROGRAM([[#include <sysfs/libsysfs.h>]],
-		              [[struct dlist *l = syssf_open_directory_list("/sys");]])],
-	  [AC_DEFINE([LIBSYSFS_2_0], [1], [Define to 1 if libsysfs-2.0])],
-	  [ac_have_libsysfs_2_0=no]
+	  [AC_LANG_PROGRAM(
+		  [[#include <sysfs/libsysfs.h>]],
+		  [[struct sysfs_device *d = sysfs_open_device_tree("/sys"); 
+		    sysfs_close_device(d);]])],
+	  [AC_DEFINE([HAVE_SYSFS_OPEN_DEVICE_TREE], [1], 
+		         [Define to 1 if libsysfs has sysfs_open_device_tree.])],
+	  [ac_have_sysfs_open_device_tree=no]
   )
-  AC_MSG_RESULT([${ac_have_libsysfs_2_0=yes}]) 
+  AC_MSG_RESULT([${ac_have_sysfs_open_device_tree=yes}]) 
 
   LIBS=$saveLIBS;
   AC_SUBST([LIBSYSFS_LIBS])
