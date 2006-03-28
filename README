@@ -1,5 +1,16 @@
-This package provides a very simple interface for managing the 
-kernel EDAC drivers. It includes a library interface for reading
-status and error counts from sysfs, and a utility which uses
-that interface to create standard reports. An initscript to load
-EDAC drivers and DIMM labels is also included.
+
+EDAC (Error Detection and Correction) is a set of Linux kernel
+modules that handle reporting of hardware-related errors. Currently
+these modules mainly handle detection of ECC memory errors for many
+x86 and x86-64 chipsets and PCI bus parity errors.
+
+The edac-utils project currently has three components: libedac,
+edac-util, and edac-ctl. The libedac library presents a standard
+API for reading EDAC error counts and other information from sysfs,
+and edac-util uses this API to generate standard reports from the
+commandline. The edac-ctl utility is a perl script which uses config
+files to load the appropriate EDAC driver for a given chipset and
+register motherboard DIMM labels if they are configured. An init
+script is also provided which uses edac-ctl to initialize EDAC at
+system startup.
+
