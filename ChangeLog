@@ -1,3 +1,8 @@
+2006-05-10 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/util/edac-ctl : Don't allow MB vendor/model to end in whitespace.
+	  Allow multi-word string for MB vendor (e.g. "TYAN Computer Corp").
+
 2006-03-28 Mark Grondona <mgrondona@llnl.gov>
 
 	* README : Update with better description of edac-utils components.

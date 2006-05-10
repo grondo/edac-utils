@@ -255,8 +255,8 @@ sub guess_vendor_model {
             /^(\s*)/;
             $1 lt $indent && last LINE;
             $indent = $1;
-            /(?:manufacturer|vendor):\s*(.*)\s*/i && ( $vendor = $1 );
-	        /product(?: name)?:\s*(.*)\s*/i       && ( $model  = $1 );
+            /(?:manufacturer|vendor):\s*(.*\S)\s*/i && ( $vendor = $1 );
+	        /product(?: name)?:\s*(.*\S)\s*/i       && ( $model  = $1 );
             last LINE if ($vendor && $model);
 	    }
 	}
@@ -285,7 +285,7 @@ sub parse_dimm_labels
         s/\s+$//;
         next unless length;
 
-        if (/vendor\s*:\s*(\w+)/i) {
+        if (/vendor\s*:\s*(.*\S)\s*/i) {
             $vendor = lc $1;
             @models = ();
             next;
