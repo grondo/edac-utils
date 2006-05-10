@@ -1,8 +1,15 @@
+# EDAC Motherboard DIMM labels Database file.
 #
+# $Id$
 #
-#
-#
-#
+
+Vendor: Tyan Computer Corp
+
+  Model: S2895
+     CPU1A1: 0.0.0, 0.1.0; CPU2A1: 1.0.0, 1.1.0;
+     CPU1A2: 0.0.1, 0.1.1; CPU2A2: 1.0.1, 1.1.1;
+     CPU1B1: 0.2.0, 0.3.0; CPU2B1: 1.2.0, 1.3.0; 
+     CPU1B2: 0.2.1, 0.3.1; CPU2B2: 1.2.1, 1.3.1; 
 
 Vendor: Supermicro
 
@@ -24,16 +31,16 @@ Vendor: Supermicro
     3A: 0.4.0, 0.5.0; 3B: 0.4.1, 0.5.1;
     4A: 0.6.0, 0.7.0; 4B: 0.6.1, 0.7.1
 
-  Model: P4DC6, P4DCE, X5DAL
+ Model: P4DC6, P4DCE, X5DAL
     0A: 0.0.0, 0.1.0; 0B: 0.0.1, 0.1.1
     1A: 0.2.0, 0.3.0; 1B: 0.2.1, 0.3.1
 
-  Model: X5DPR
+ Model: X5DPR
     DIMM#3A: 0.0.0, 0.1.0; DIMM#3B: 0.0.1, 0.1.1;
     DIMM#2A: 0.2.0, 0.3.0; DIMM#2B: 0.2.1, 0.3.1;
     DIMM#1A: 0.4.0, 0.5.0; DIMM#1B: 0.4.1, 0.5.1; 
 
-  Model: X5DA8, X5DAE
+ Model: X5DA8, X5DAE
     1A: 0.0.0, 0.1.0; 1B: 0.0.1, 0.1.1;
     2A: 0.2.0, 0.3.0; 2B: 0.2.1, 0.3.1;
     3A: 0.4.0, 0.5.0; 3B: 0.4.1, 0.5.1; 
