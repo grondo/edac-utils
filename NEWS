@@ -1,3 +1,10 @@
+Version 0.4 (2006-05-10):
+ - Allow motherboard vendor string to have whitespace.
+ - Fix dmidecode parsing to strip whitespace from end of strings.
+ - Add Tyan S2895 motherboard DIMM labels to labels database.
+ - Support for sysfsutils-2.0.0.
+ - Fix edac-util -r to allow optional argument.
+
 Version 0.3 (2006-03-21):
  - Fix permissions in specfile.
  - Omit warnings when reads fail from EDAC sysfs files.

@@ -5,6 +5,8 @@
 
 	* src/etc/labels.db : Add Tyan S2895 DIMM labels to labels.db.
 
+	* : tag version 0.4.
+
 2006-03-28 Mark Grondona <mgrondona@llnl.gov>
 
 	* README : Update with better description of edac-utils components.
