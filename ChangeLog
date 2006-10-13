@@ -8,6 +8,8 @@
 
 	* src/etc/labels.db : Add Supermicro H8DCE.
 
+	* : tag version 0.5.
+
 2006-05-10 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl : Don't allow MB vendor/model to end in whitespace.

@@ -1,3 +1,9 @@
+version 0.5 (2006-10-13):
+ - Add Supermicro H8DCE to distributed DIMM labels database.
+ - Fix labels.db parsing to allow single <mc.row.chan> after each DIMM label.
+ - Allow edac-ctl --mainboard= to accept "vendor model" as well as 
+   "vendor:model" when explicitly specifying mainboard information.
+
 Version 0.4 (2006-05-10):
  - Allow motherboard vendor string to have whitespace.
  - Fix dmidecode parsing to strip whitespace from end of strings.
