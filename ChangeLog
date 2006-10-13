@@ -6,6 +6,8 @@
 	* src/util/edact-ctl : Allow whitespace separated vendor and model
 	  to --mainboard= as well as colon separated values.
 
+	* src/etc/labels.db : Add Supermicro H8DCE.
+
 2006-05-10 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl : Don't allow MB vendor/model to end in whitespace.
