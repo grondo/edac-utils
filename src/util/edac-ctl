@@ -223,7 +223,7 @@ sub get_mainboard_info {
     my ($vendor, $model);
 
     if ($conf{opt}{mainboard} && $conf{opt}{mainboard} ne "report") {
-        ($vendor, $model) = split (/:/, $conf{opt}{mainboard}, 2);
+        ($vendor, $model) = split (/[: ]/, $conf{opt}{mainboard}, 2);
     }
 
     if (!$vendor || !$model) {
@@ -303,7 +303,7 @@ sub parse_dimm_labels
 
             next unless (my ($label, $info) = ($str =~ /^(.*)\s*:\s*(.*)$/i));
 
-            unless ($info =~ /(\d\.\d\.\d,)+/) {
+            unless ($info =~ /(\d\.\d\.\d,*)+/) {
                 print STDERR "$file: $line: Invalid syntax, ignoring: \"$_\"\n";
                 next;
             }

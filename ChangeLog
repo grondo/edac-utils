@@ -1,3 +1,11 @@
+2006-10-13 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/util/edac-ctl : Fix bug in labels.db parsing which required
+	  at least one comma to be used after each DIMM label.
+
+	* src/util/edact-ctl : Allow whitespace separated vendor and model
+	  to --mainboard= as well as colon separated values.
+
 2006-05-10 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl : Don't allow MB vendor/model to end in whitespace.
