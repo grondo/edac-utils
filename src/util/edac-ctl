@@ -367,6 +367,10 @@ sub register_dimm_labels
 
                 my $file = "$sysfs/mc$mc/csrow$row/ch${chan}_dimm_label";
 
+                # Ignore sysfs files that don't exist. Might just be
+                #  unpopulated bank.
+                next unless -f $file;
+
                 if (!open (DL, ">$file")) {
                     warn ("Unable to open $file\n");
                     next;
