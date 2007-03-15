@@ -3,6 +3,8 @@
 	* src/util/edac-ctl : Just ignore sysfs labels files that do
 	  not exist. Probably is just unpopulated memory banks.
 
+	* src/etc/labels.db : Add Supermicro H8QME.
+
 2006-10-13 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl : Fix bug in labels.db parsing which required
