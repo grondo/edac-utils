@@ -1,4 +1,4 @@
-version 0.5 (2007-03-15):
+version 0.6 (2007-03-15):
  - Add Supermicro H8QME to distributed DIMM labels database.
  - Don't warn about sysfs files that don't exist when registering DIMM labels.
    This is probably just unpopulated memory banks on motherboard.
