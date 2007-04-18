@@ -1,5 +1,14 @@
+version 0.7 (2007-04-18):
+ - Change default output of edac-util to better identify any failing DIMM(s).
+    Previous default output can be obtained with --report=simple.
+ - Fix edac-util --report=full output to include error counts not associated
+    with a DIMM (so-called "noinfo" error counts).
+ - Update Supermicro H8QM8 labels.
+ - edac-ctl --print-labels now shows registered labels (in sysfs) alongside 
+    configured labels (from labels.db).
+
 version 0.6 (2007-03-15):
- - Add Supermicro H8QME to distributed DIMM labels database.
+ - Add Supermicro H8QM8 to distributed DIMM labels database.
  - Don't warn about sysfs files that don't exist when registering DIMM labels.
    This is probably just unpopulated memory banks on motherboard.
 	

@@ -13,6 +13,8 @@
 	* src/util/edac-ctl : Add registered labels to --print-labels
 	  output and change output format.
 
+	* : tag version 0.7. 
+
 2007-03-15 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl : Just ignore sysfs labels files that do
