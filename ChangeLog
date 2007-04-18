@@ -1,3 +1,15 @@
+2007-04-18 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/util/edac-util.c : Default report changed to report any
+	  DIMM (or unknown location) with an error count. This is more
+	  useful for diagnosis and thus makes sense to be the defualt.
+	  Old default changed to "simple" report.
+
+	* src/util/edac-util.c : Also report "noinfo" CE and UE count
+	  in full report.
+
+	* src/etc/labels.db : Switch DIMMC and DIMMD locations for H8QM8.
+
 2007-03-15 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl : Just ignore sysfs labels files that do

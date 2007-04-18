@@ -60,7 +60,7 @@ Usage: %s [OPTIONS]\n\
   -s, --status         Display EDAC status\n\
   -r, --report=REPORT  Display EDAC error report REPORT\n\
   \n\
-Valid REPORT types are default, full, ue, ce\n"
+Valid REPORT types are default, simple, full, ue, ce\n"
   
 
 /*****************************************************************************
@@ -88,6 +88,7 @@ struct report {
 
 enum report_type {
     EDAC_REPORT_DEFAULT,
+    EDAC_REPORT_SIMPLE,
     EDAC_REPORT_FULL,
     EDAC_REPORT_UE,
     EDAC_REPORT_CE,
@@ -103,6 +104,7 @@ static struct prog_ctx prog_ctx = { NULL, NULL, 0, 0, 0, NULL };
 /*  Report prototypes
  */
 static void default_report (struct prog_ctx *);
+static void simple_report (struct prog_ctx *);
 static void full_report (struct prog_ctx *);
 static void ue_report (struct prog_ctx *);
 static void ce_report (struct prog_ctx *);
@@ -110,6 +112,7 @@ static void pci_report (struct prog_ctx *ctx);
 
 static struct report report_table[] = {
     { EDAC_REPORT_DEFAULT, (report_f) default_report, "default" },
+    { EDAC_REPORT_SIMPLE,  (report_f) simple_report,  "simple"  },
     { EDAC_REPORT_FULL,    (report_f) full_report,    "full"    },
     { EDAC_REPORT_UE,      (report_f) ue_report,      "ue"      },
     { EDAC_REPORT_CE,      (report_f) ce_report,      "ce"      },
@@ -420,6 +423,68 @@ static void generate_reports (struct prog_ctx *ctx)
 static void default_report (struct prog_ctx *ctx)
 {
     edac_mc *mc;
+    edac_csrow *csrow;
+    struct edac_mc_info mci;
+    struct edac_csrow_info csi;
+    int count = 0;
+
+    edac_for_each_mc_info (ctx->edac, mc, mci) {
+        edac_for_each_csrow_info (mc, csrow, csi) {
+            char *label[2] = { "ch0", "ch1" };
+
+            if (csi.channel[0].dimm_label_valid) {
+                label[0] = csi.channel[0].dimm_label;
+            }
+            if (csi.channel[1].dimm_label_valid) {
+                label[1] = csi.channel[1].dimm_label;
+            }
+
+            count += csi.ue_count;
+
+            if (csi.ue_count)
+                fprintf (stdout, 
+                        "MC%d: csrow%d: %s/%s: %u Uncorrected Errors\n",
+                        mci.id, csi.id, label[0], label[1], csi.ue_count);
+
+            if (!csi.channel[0].valid)
+                continue;
+
+            count += csi.channel[0].ce_count;
+
+            if (csi.channel[0].ce_count)
+                fprintf (stdout, "MC%s: csrow%d: %s: %u Corrected Errors\n", 
+                        mci.id, csi.id, label[0], csi.channel[0].ce_count);
+
+            if (!csi.channel[1].valid)
+                continue;
+
+            count += csi.channel[1].ce_count;
+
+            if (csi.channel[1].ce_count)
+                fprintf (stdout, "MC%s: csrow%d: %s: %u Corrected Errors\n", 
+                        mci.id, csi.id, label[1], csi.channel[1].ce_count);
+        }
+
+        if (mci.ue_noinfo_count)
+            fprintf (stdout, "MC%s: %u Uncorrected Errors with no DIMM info\n",
+                    mci.id, mci.ue_noinfo_count);
+
+        if (mci.ce_noinfo_count)
+            fprintf (stdout, "MC%s: %u Corrected Errors with no DIMM info\n",
+                    mci.id, mci.ce_noinfo_count);
+
+        count += mci.ce_noinfo_count + mci.ue_noinfo_count;
+    }
+
+    if (!count)
+        log_msg ("No errors to report.\n");
+
+    edac_handle_reset (ctx->edac);
+}
+
+static void simple_report (struct prog_ctx *ctx)
+{
+    edac_mc *mc;
     struct edac_mc_info info;
     unsigned int ue;
     unsigned int ce;
@@ -442,7 +507,7 @@ static void default_report (struct prog_ctx *ctx)
     if (!ctx->quiet || ce)
         fprintf (stdout, "Total CE: %u\n", ce);
     if (!ctx->quiet || ue)
-    fprintf (stdout, "Total UE: %u\n", ue);
+        fprintf (stdout, "Total UE: %u\n", ue);
 
     edac_handle_reset (ctx->edac);
 
@@ -474,6 +539,7 @@ static void full_report (struct prog_ctx *ctx)
                 fprintf (stdout, "%s:%s:all:CE:%u\n", 
                         mci.id, csi.id, csi.ce_count);
 
+
             if (!csi.channel[0].valid)
                 continue;
 
@@ -489,6 +555,13 @@ static void full_report (struct prog_ctx *ctx)
                         mci.id, csi.id, label[1], csi.channel[1].ce_count);
 
         }
+
+        if (!ctx->quiet || mci.ue_noinfo_count)
+            fprintf (stdout, "%s:noinfo:all:UE:%u\n", 
+                    mci.id, mci.ue_noinfo_count);
+        if (!ctx->quiet || mci.ce_noinfo_count)
+            fprintf (stdout, "%s:noinfo:all:CE:%u\n", 
+                    mci.id, mci.ce_noinfo_count);
     }
 
     return;
