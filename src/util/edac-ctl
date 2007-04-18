@@ -323,12 +323,34 @@ sub parse_dimm_labels
     return \%labels
 }
 
+sub read_dimm_label
+{
+    my ($mc, $row, $chan) = @_;
+    my $sysfs = "/sys/devices/system/edac/mc";
+
+    my $file = "$sysfs/mc$mc/csrow$row/ch${chan}_dimm_label";
+
+    return ("Missing") unless -f $file;
+
+    if (!open (LABEL, "$file")) {
+        warn "Failed to open $file: $!\n";
+        return ("Error");
+    }
+
+    chomp (my $label = <LABEL>);
+
+    close (LABEL);
+
+    return ($label);
+}
+
 sub print_dimm_labels
 {
     my $fh = shift || *STDOUT;
     my $lref = parse_dimm_labels ();
     my $vendor = lc $conf{mainboard}{vendor};
     my $model  = lc $conf{mainboard}{model};
+    my $format = "%-35s %-20s %-20s\n";
 
     if (!exists $$lref{$vendor}{$model}) {
         print STDERR "No dimm labels for $conf{mainboard}{vendor} " .
@@ -336,11 +358,18 @@ sub print_dimm_labels
         return;
     }
 
+    
+    printf $fh $format, "LOCATION", "CONFIGURED LABEL", "SYSFS CONTENTS";
+
     for my $mc (sort keys %{$$lref{$vendor}{$model}}) {
         for my $row (sort keys %{$$lref{$vendor}{$model}{$mc}}) {
             for my $chan (sort keys %{$$lref{$vendor}{$model}{$mc}{$row}}) {
-                print $fh "mc$mc/csrow$row/ch${chan}_dimm_label = ",
-                          "$$lref{$vendor}{$model}{$mc}{$row}{$chan}\n";
+
+                my $label = $$lref{$vendor}{$model}{$mc}{$row}{$chan};
+                my $rlabel = read_dimm_label ($mc, $row, $chan);
+                my $loc = "mc$mc/csrow$row/ch${chan}_dimm_label";
+
+                printf $fh $format, $loc, $label, $rlabel;
             }
         }
     }

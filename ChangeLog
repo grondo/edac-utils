@@ -10,6 +10,9 @@
 
 	* src/etc/labels.db : Switch DIMMC and DIMMD locations for H8QM8.
 
+	* src/util/edac-ctl : Add registered labels to --print-labels
+	  output and change output format.
+
 2007-03-15 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl : Just ignore sysfs labels files that do
