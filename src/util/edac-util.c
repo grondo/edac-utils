@@ -429,6 +429,17 @@ static void default_report (struct prog_ctx *ctx)
     int count = 0;
 
     edac_for_each_mc_info (ctx->edac, mc, mci) {
+
+        if (mci.ue_noinfo_count || ctx->verbose)
+            fprintf (stdout, "%s: %u Uncorrected Errors with no DIMM info\n",
+                    mci.id, mci.ue_noinfo_count);
+
+        if (mci.ce_noinfo_count || ctx->verbose)
+            fprintf (stdout, "%s: %u Corrected Errors with no DIMM info\n",
+                    mci.id, mci.ce_noinfo_count);
+
+        count += mci.ce_noinfo_count + mci.ue_noinfo_count;
+ 
         edac_for_each_csrow_info (mc, csrow, csi) {
             char *label[2] = { "ch0", "ch1" };
 
@@ -441,9 +452,9 @@ static void default_report (struct prog_ctx *ctx)
 
             count += csi.ue_count;
 
-            if (csi.ue_count)
+            if (csi.ue_count || ctx->verbose)
                 fprintf (stdout, 
-                        "MC%d: csrow%d: %s/%s: %u Uncorrected Errors\n",
+                        "%s: %s: %s|%s: %u Uncorrected Errors\n",
                         mci.id, csi.id, label[0], label[1], csi.ue_count);
 
             if (!csi.channel[0].valid)
@@ -451,8 +462,8 @@ static void default_report (struct prog_ctx *ctx)
 
             count += csi.channel[0].ce_count;
 
-            if (csi.channel[0].ce_count)
-                fprintf (stdout, "MC%s: csrow%d: %s: %u Corrected Errors\n", 
+            if (csi.channel[0].ce_count || ctx->verbose)
+                fprintf (stdout, "%s: %s: %s: %u Corrected Errors\n", 
                         mci.id, csi.id, label[0], csi.channel[0].ce_count);
 
             if (!csi.channel[1].valid)
@@ -460,23 +471,13 @@ static void default_report (struct prog_ctx *ctx)
 
             count += csi.channel[1].ce_count;
 
-            if (csi.channel[1].ce_count)
-                fprintf (stdout, "MC%s: csrow%d: %s: %u Corrected Errors\n", 
+            if (csi.channel[1].ce_count || ctx->verbose)
+                fprintf (stdout, "%s: %s: %s: %u Corrected Errors\n", 
                         mci.id, csi.id, label[1], csi.channel[1].ce_count);
         }
-
-        if (mci.ue_noinfo_count)
-            fprintf (stdout, "MC%s: %u Uncorrected Errors with no DIMM info\n",
-                    mci.id, mci.ue_noinfo_count);
-
-        if (mci.ce_noinfo_count)
-            fprintf (stdout, "MC%s: %u Corrected Errors with no DIMM info\n",
-                    mci.id, mci.ce_noinfo_count);
-
-        count += mci.ce_noinfo_count + mci.ue_noinfo_count;
     }
 
-    if (!count)
+    if (!count && !ctx->verbose)
         log_msg ("No errors to report.\n");
 
     edac_handle_reset (ctx->edac);
