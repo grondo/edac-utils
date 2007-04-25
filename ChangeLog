@@ -1,3 +1,8 @@
+2007-04-25 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/util/edac-util.c : Issue "No errors to report." message to
+	  stdout, not stderr.
+
 2007-04-18 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-util.c : Default report changed to report any
