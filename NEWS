@@ -1,3 +1,6 @@
+version 0.8 (2007-04-25):
+ - Issue edac-util "No errors to report" message to stdout not stderr.
+
 version 0.7 (2007-04-18):
  - Change default output of edac-util to better identify any failing DIMM(s).
     Previous default output can be obtained with --report=simple.
