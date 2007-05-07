@@ -1,13 +1,11 @@
 /*****************************************************************************
  *  $Id$
  *****************************************************************************
- *  $LSDId: list.h,v 1.14 2002/12/11 19:00:36 dun Exp $
- *****************************************************************************
  *  Copyright (C) 2001-2002 The Regents of the University of California.
  *  Produced at Lawrence Livermore National Laboratory (cf, DISCLAIMER).
  *  Written by Chris Dunlap <cdunlap@llnl.gov>.
  *  
- *  This file is from LSD-Tools, the LLNL Software Development Toolbox.
+ *  This file is part of edac-utils.
  *
  *  LSD-Tools is free software; you can redistribute it and/or modify it under
  *  the terms of the GNU General Public License as published by the Free
@@ -22,6 +20,11 @@
  *  You should have received a copy of the GNU General Public License along
  *  with LSD-Tools; if not, write to the Free Software Foundation, Inc.,
  *  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
+ *****************************************************************************
+ *  This file is originally  from LSD-Tools, the LLNL Software 
+ *  Development Toolbox.
+ *
+ *  $LSDId: list.h,v 1.14 2002/12/11 19:00:36 dun Exp $
  *****************************************************************************/
 
 

@@ -1,11 +1,12 @@
 /*****************************************************************************\
  *  $Id$
  *****************************************************************************
- *  Copyright (C) 2006 The Regents of the University of California.
+ *  Copyright (C) 2006-2007 The Regents of the University of California.
  *  Produced at Lawrence Livermore National Laboratory (cf, DISCLAIMER).
- *  UCRL-CODE-????
+ *  Written by Jim Garlick <garlick@llnl.gov>
+ *  UCRL-CODE-230739.
  *  
- *  This file is part of edac-utils
+ *  This file is part of edac-utils.
  *  
  *  Pdsh is free software; you can redistribute it and/or modify it under
  *  the terms of the GNU General Public License as published by the Free

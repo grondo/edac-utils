@@ -1,12 +1,12 @@
 /*****************************************************************************
  *  $Id$
  *****************************************************************************
- *  This file is part of edac-utils.
- *
- *  Copyright (C) 2003-2006 The Regents of the University of California.
+ *  Copyright (C) 2005-2007 The Regents of the University of California.
  *  Produced at Lawrence Livermore National Laboratory (cf, DISCLAIMER).
  *  Written by Mark Grondona <mgrondona@llnl.gov>
- *  UCRL-CODE-????.
+ *  UCRL-CODE-230739.
+ *
+ *  This file is part of edac-utils.
  *
  *  This is free software; you can redistribute it and/or modify it
  *  under the terms of the GNU General Public License as published by

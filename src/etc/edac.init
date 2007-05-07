@@ -1,5 +1,12 @@
 #!/bin/sh
 ###############################################################################
+# $Id$
+###############################################################################
+# Copyright (C) 2006-2007 The Regents of the University of California.
+# Produced at Lawrence Livermore National Laboratory.
+# Written by Mark Grondona <mgrondona@llnl.gov>
+# UCRL-CODE-230739.
+###############################################################################
 # chkconfig:      345 40 60
 ###############################################################################
 ### BEGIN INIT INFO

@@ -1,6 +1,29 @@
-#
-# This file must be processed with autoconf to generate a configure script
-#
+##*****************************************************************************
+## $Id$
+##*****************************************************************************
+## Process this file with autoconf to produce a configure script.
+##*****************************************************************************
+## Copyright (C) 2002-2006 The Regents of the University of California.
+## Produced at Lawrence Livermore National Laboratory.
+## Written by Mark Grondona <mgrondona@llnl.gov>.
+## UCRL-CODE-230739.
+##
+## This file is part of edac-utils.
+##
+## This is free software; you can redistribute it and/or modify it
+## under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2 of the License, or
+## (at your option) any later version.
+##
+## This is distributed in the hope that it will be useful, but WITHOUT
+## ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+## FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+## for more details.
+##
+## You should have received a copy of the GNU General Public License along
+## with this program; if not, write to the Free Software Foundation, Inc.,
+## 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
+##*****************************************************************************
 
 AC_INIT
 X_AC_META
