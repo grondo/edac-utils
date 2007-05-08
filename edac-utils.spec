@@ -13,13 +13,12 @@ Requires: sysfsutils
 %define debug_package %{nil}
 
 %description
-EDAC is the current set of drivers in the Kernel that handle
+EDAC is the current set of drivers in the Linux kernel that handle
 detection of ECC errors from memory controllers for most chipsets
-on i386 and x86_64 architecture. This userspace component consists
+on i386 and x86_64 architectures. This userspace component consists
 of an init script which makes sure EDAC drivers and DIMM labels
 are loaded at system startup, as well as a library and utility
 for reporting current error counts from the EDAC sysfs files.
-
 
 
 %prep 
@@ -53,6 +52,7 @@ fi
 %{_sbindir}/edac-ctl
 %{_bindir}/edac-util
 %{_libdir}/*
+%{_mandir}/*/*
 %{_includedir}/edac.h
 %dir %attr(0755,root,root) %{_sysconfdir}/edac
 %config(noreplace) %{_sysconfdir}/edac/*

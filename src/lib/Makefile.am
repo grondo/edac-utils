@@ -10,6 +10,9 @@ include_HEADERS = \
 lib_LTLIBRARIES = \
 	libedac.la
 
+man_MANS = \
+	edac.3
+
 libedac_la_LDFLAGS = \
 	-export-symbols-regex "^edac_.*" \
 	-version-info $(META_LT_CURRENT):$(META_LT_REVISION):$(META_LT_AGE)

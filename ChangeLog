@@ -1,4 +1,12 @@
 2007-05-07 Mark Grondona <mgrondona@llnl.gov>
+	* src/lib/edac.3.in, src/util/edac-util.1.in, 
+	  src/util/edac-ctl.8.in :
+	  Add manpages for libedac, edac-util, and edac-ctl.
+
+	* src/lib/Makefile.am, src/util/Makefile.am,
+	  configure.ac : Changes for new manpages.
+
+2007-05-07 Mark Grondona <mgrondona@llnl.gov>
 
 	* : Added official UCRL number.
 

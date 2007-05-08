@@ -10,6 +10,10 @@ AM_CPPFLAGS = \
 bin_PROGRAMS = \
 	edac-util 
 
+man_MANS = \
+	edac-util.1 \
+	edac-ctl.8
+
 dist_sbin_SCRIPTS = \
 	edac-ctl
 

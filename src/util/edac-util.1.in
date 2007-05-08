@@ -1,0 +1,123 @@
+.\"****************************************************************************
+.\" $Id$
+.\"****************************************************************************
+.\" Copyright (C) 2006-2007 The Regents of the University of California.
+.\" Produced at Lawrence Livermore National Laboratory.
+.\" Written by Mark Grondona <mgrondona@llnl.gov>
+.\" UCRL-CODE-230739.
+.\"
+.\" This file is part of edac-utils.
+.\"
+.\" This is free software; you can redistribute it and/or modify it
+.\" under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+.\" for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program; if not, write to the Free Software Foundation, Inc.,
+.\" 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
+.\"****************************************************************************
+
+.TH EDAC-UTIL 1 "@META_DATE@" "@META_ALIAS" "EDAC error reporting utility"
+
+.SH NAME
+edac-util \- EDAC error reporting utility.
+
+.SH SYNOPSIS
+.B edac-util 
+[\fIOPTION\fR]...
+
+.SH DESCRIPTION
+The \fBedac-util\fR program reads information from EDAC (Error 
+Detection and Correction) drivers in the kernel,
+using files exported by these drivers in sysfs. With
+no options, \fBedac-util\fR will report any uncorrected error
+(UE) or corrected error (CE) information recorded 
+by EDAC, along with any DIMM label information registered with EDAC.
+
+.SH OPTIONS
+.TP
+.BI "-h, --help"
+Display a summary of the command-line options.
+.TP
+.BI "-q, --quiet"
+Quiet mode. For some reports, \fBedac-util\fR will report corrected
+and uncorrected error counts for all MC, csrow, and channel combinations,
+even if the current count of errors is zero. The \fI\-\-quiet\fR
+flag will suppress the display of any locations with zero errors, 
+thus creating a more terse report. No output will be generated if
+there are zero total errors currently recorded by EDAC. Additionally,
+the use of \fI\-\-quiet\fR will suppress all informational and debug
+messages, displaying only fatal errors.
+.TP
+.BI "-v, --verbose"
+Increase verbosity. Multiple \fI\-v\fR\'s may be used.
+.TP
+.BI "-s, --status"
+Displays the current status of EDAC drivers. \fBedac-util\fR will
+report whether it detects that EDAC drivers are loaded, and the
+number of memory controllers (MCs) found in sysfs. In verbose mode,
+the MC id and name of each controller will also be printed.
+.TP
+.BI "-r, --report=" report,...
+Specify the report to generate. Currently, the available reports
+are \fIdefault\fR, \fIsimple\fR, \fIfull\fR, \fIue\fR, and \fIce\fR.
+These reports are detailed in the \fBEDAC REPORTS\fR section
+below. More than one report may be specified in a comma-separated
+list.
+
+.SH EDAC REPORTS
+.TP
+.B default
+The \fIdefault\fR \fBedac-util\fR report is generated when the program is
+run without any options. If there are no errors logged by EDAC, 
+this report will display "No errors to report." to stdout. Otherwise,
+error counts for each MC, csrow, channel combination with attributed
+errors are displayed, along with corresponding DIMM labels, if these
+labels have been registered in sysfs. 
+
+The default report will also
+display any errors that do not have any DIMM information. These
+errors occur when errors are reported in the memory controllers
+overflow or similar registers, indicating that more than one error
+occurred during a given EDAC poll cycle. It is usually obvious
+from which DIMM locations these errors were generated.
+.TP
+.B simple
+The \fIsimple\fR report reports total corrected and uncorrected errors
+for each MC detected on the system. It also displays a tally of 
+total errors. With the \fI\-\-quiet\fR option, only non-zero error
+counts are displayed.
+.TP
+.B full
+The \fIfull\fR report generates a line of output for every
+MC, csrow, channel combination found in EDAC sysfs. This includes
+counts of errors with no information ("noinfo" errors). Output
+is of the form:
+.nf
+
+MC:(csrow|noinfo):(label|all):(UE|CE):count 
+
+.fi
+With the \fI\-\-quiet\fR option, only non-zero error counts will
+be displayed.
+.TP
+.B ue
+This report simply displays the total number of Uncorrected Errors
+(UEs) detected on the system.
+With the \fI\-\-quiet\fR option, output will be suppressed unless
+there are 1 or more errors to report.
+.TP
+.B ce
+This report simply displays the total number of Uncorrected Errors
+(UEs) detected on the system.
+With the \fI\-\-quiet\fR option, output will be suppressed unless
+there are 1 or more errors to report.
+
+.SH SEE ALSO
+\fBedac\fR(3), \fBedac-ctl\fR(8)

@@ -1,0 +1,285 @@
+.\"****************************************************************************
+.\" $Id$
+.\"****************************************************************************
+.\" Copyright (C) 2006-2007 The Regents of the University of California.
+.\" Produced at Lawrence Livermore National Laboratory.
+.\" Written by Mark Grondona <mgrondona@llnl.gov>
+.\" UCRL-CODE-230739.
+.\"
+.\" This file is part of edac-utils.
+.\"
+.\" This is free software; you can redistribute it and/or modify it
+.\" under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+.\" for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program; if not, write to the Free Software Foundation, Inc.,
+.\" 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
+.\"****************************************************************************
+
+.TH EDAC 3 "@META_DATE@" "@META_ALIAS" "EDAC error reporting library"
+
+.SH NAME
+libedac \- EDAC error reporting library
+
+.SH SYNOPSIS
+.nf
+.B #include <edac.h>
+.sp
+.B cc ... \-ledac
+.sp
+.BI "edac_handle * edac_handle_create ("void );
+.sp
+.BI "void edac_handle_destroy (edac_handle *" edac );
+.sp
+.BI "int edac_handle_init (edac_handle *" edac );
+.sp
+.BI "unsigned int edac_mc_count (edac_handle *" edac );
+.sp 
+.BI "int edac_handle_reset (edac_handle *" edac );
+.sp 
+.BI "int edac_error_totals (edac_handle *" edac ", struct edac_totals *" totals );
+.sp 
+.BI "edac_mc * edac_next_mc (edac_handle *" edac );
+.sp 
+.BI "int edac_mc_get_info (edac_mc *" mc ", struct edac_mc_info *" info );
+.PP
+.BI "edac_mc *edac_next_mc_info (edac_handle *" edac , 
+.BI "                            struct edac_mc_info *" info );
+.PP
+.BI "int edac_mc_reset (struct edac_mc *" mc );
+.sp
+.BI "edac_csrow * edac_next_csrow (struct edac_mc *" mc );
+.sp
+.BI "int edac_csrow_get_info (edac_csrow *" csrow , 
+.BI "                         struct edac_csrow_info *" info );
+.sp
+.BI "edac_csrow * edac_next_csrow_info (edac_mc *" mc , 
+.BI "                                   struct edac_csrow_info *" info );
+.sp
+.BI "const char * edac_strerror (edac_handle *" edac );
+.sp
+.BI "edac_for_each_mc_info (edac_handle *" edac ", edac_mc *" mc , 
+.BI "                       struct edac_csrow_info *" info ")    { ... }"
+.sp
+.BI "edac_for_each_csrow_info (edac_mc *" mc ", edac_csrow *" csrow ", 
+.BI "                          struct edac_csrow_info *" info ") { ... }"
+.fi
+
+.SH DESCRIPTION
+The \fIlibedac\fR library offers a very simple programming interface
+to the information exported from in-kernel EDAC (Error Detection and
+Correction) drivers in sysfs. The \fIedac-util\fR(8) utility uses
+\fIlibedac\fR to report errors in a user-friendly manner from
+the command line.
+
+EDAC errors for most systems are recorded in sysfs on a per 
+memory controller (MC) basis. Memory controllers are further
+subdivided by csrow and channel. The \fIlibedac\fR library
+provides a method to loop through multiple MCs, and their
+corresponding csrows, obtaining information about each
+component from sysfs along the way. There is also a simple 
+single call to retrieve the total error counts for a given machine.
+
+In order to use \fIlibedac\fR an \fBedac_handle\fR must first
+be opened via the call \fBedac_handle_create\fR(). Once the
+handle is created, sysfs data can be loaded into the handle
+with \fBedac_handle_init\fR(). A final call to \fBedac_handle_destroy\fR() 
+will free all memory and open files associated with the edac handle.
+
+\fBedac_handle_create\fR() will return \fBNULL\fR on failure to
+allocate memory.
+
+The \fBedac_strerror\fR function will return a descriptive string 
+representation of the last error for the \fIlibedac\fR handle
+\fIedac\fR.
+
+The \fBedac_error_totals\fR() function will return the total counts
+of memory and pci errors in the \fItotals\fR structure passed to
+the function. The \fItotals\fR structure is of type \fIedac_totals\fR
+which has the form:
+.PP
+.RS
+.nf
+struct edac_totals {
+   unsigned int  ce_total;         /* Total corrected errors   */
+   unsigned int  ue_total;         /* Total uncorrected errors */
+   unsigned int  pci_parity_total; /* Total PCI Parity errors  */
+};
+.fi
+.RE
+.PP
+.SH MEMORY CONTROLLER INFORMATION
+
+Systems may have one or more memory controllers (MCs) with EDAC information.
+The number of MCs detected by EDAC drivers may be queried with the
+\fBedac_mc_count\fR() function, while the \fBedac_next_mc\fR function
+will return a handle to the next memory controller in the \fIlibedac\fR
+handle\'s internal list. This memory controller is represented
+by the opaque \fBedac_mc\fR type.
+
+\fBedac_next_mc\fR will return \fBNULL\fR when there are no further
+memory controllers to return. Thus the following example code is
+another method to count all EDAC MCs (assuming the EDAC library handle
+\fIedac\fR has already been initialized):
+.PP
+.RS
+.nf
+int i = 0;
+edac_mc *mc;
+while ((mc = edac_next_mc (edac)))
+    i++;
+return (i);
+.fi
+.RE
+.PP
+To query information about an \fBedac_mc\fR, use the \fBedac_mc_get_info\fR
+function. This function fills in the given \fBinfo\fR structure, which
+is of type \fBedac_mc_info\fR:
+.PP
+.RS
+.nf
+struct edac_mc_info {
+    char           id[];           /* Id of memory controller */
+    char           mc_name[];      /* Name of MC              */
+    unsigned int   size_mb;        /* Amount of RAM in MB     */
+    unsigned int   ce_count;       /* Corrected error count   */
+    unsigned int   ce_noinfo_count;/* noinfo Corrected errors */
+    unsigned int   ue_count;       /* Uncorrected error count */
+    unsigned int   ue_noinfo_count;/* noinfo Uncorrected errors*/
+};
+.fi
+.RE
+.PP
+The function \fBedac_next_mc_info\fR() can be used to 
+loop through all EDAC memory controllers and obtain MC information
+in a single call. It is a combined \fBedac_next_mc\fR() and 
+\fBedac_mc_get_info\fR().
+
+The function \fBedac_handle_reset\fR() will reset the internal
+memory controller iterator in the \fIlibedac\fR handle. A subsequent
+call to \fBedac_next_mc\fR() would thus return the first EDAC
+MC.
+
+A convenience macro, \fBedac_for_each_mc_info\fR(), is provided
+which defines a for loop that iterates through all memory controller
+ objects for a given EDAC handle, returning the MC information in
+the \fIinfo\fR structure on each iteration. For example (assuming
+initialized \fIlibedac\fR handle \fIedac\fR):
+.PP
+.RS
+.nf
+edac_mc *mc;
+struct edac_mc_info info;
+int count = 0;
+
+edac_for_each_mc_info (edac, mc, info) {
+    count++;
+    printf ("MC info: id=%s name=%s\\n", info.id, info.mc_name);
+}
+.fi
+.RE
+.PP
+
+.SH CSROW INFORMATION
+
+Each EDAC memory controller may have one or more \fIcsrow\fRs 
+associated with it. Similar to the MC iterator functions described
+above, the \fBedac_next_csrow\fR() function allows \fIlibedac\fR
+users to loop through all csrows within a given MC. Once the last
+csrow is reached, the function will return \fBNULL\fR.
+
+The \fBedac_csrow_get_info\fR() function returns information about
+\fBedac_csrow\fB in the \fBedac_csrow_info\fR structure, which has
+the contents:
+.PP
+.RS
+.nf
+struct edac_csrow_info {
+    char          id[];      /* CSROW Identity (e.g. csrow0)  */
+    unsigned int  size_mb;   /* CSROW size in MB              */
+    unsigned int  ce_count;  /* Total corrected errors        */
+    unsigned int  ue_count;  /* Total uncorrected errors      */
+    struct edac_channel channel[EDAC_MAX_CHANNELS]; 
+};
+
+struct edac_channel {
+    int           valid;            /* Is this channel valid */
+    unsigned int  ce_count;         /* Corrected error count */
+    int           dimm_label_valid; /* Is DIMM label valid?  */
+    char          dimm_label[];     /* DIMM name             */
+};
+.fi
+.RE
+.PP
+
+The \fBedac_next_csrow_info\fR() function is a combined version
+of \fBedac_next_csrow\fR() and \fBedac_csrow_get_info\fR() for 
+convenience.
+
+The \fBedac_mc_reset\fR() function is provided to reset the
+\fBedac_mc\fR internal csrow iterator.
+
+A convenience macro, \fBedac_for_each_csrow_info\fR(), is provided
+which defines a for loop that iterates through all csrow objects
+in an EDAC memory controller, returning the csrow information in
+the \fIinfo\fR structure on each iteration.
+
+.SH EXAMPLES
+Initialize \fIlibedac\fR handle:
+.PP
+.RS
+.nf
+edac_handle *edac;
+
+if (!(edac = edac_handle_create ())) {
+    fprintf (stderr, "edac_handle_create: Out of memory!\\n");
+    exit (1);
+}
+
+if (edac_handle_init (edac) < 0) {
+   fprintf (stderr, "Unable to get EDAC data: %s\\n", 
+                    edac_strerror (edac));
+   exit (1);
+}
+
+printf ("EDAC initialized with %d MCs\\n", edac_mc_count (edac));
+
+edac_handle_destroy (edac);
+.fi
+.RE
+.PP
+Report all DIMM labels for MC:csrow:channel combinations
+.PP
+.RS
+.nf
+edac_mc *mc;
+edac_csrow *csrow;
+struct edac_mc_info mci;
+struct edac_csrow_info csi;
+
+edac_for_each_mc_info (ctx->edac, mc, mci) {
+    edac_for_each_csrow_info (mc, csrow, csi) {
+        char *label[2] = { "unset", "unset" };
+
+        if (csi.channel[0].dimm_label_valid)
+            label[0] = csi.channel[0].dimm_label;
+        if (csi.channel[1].dimm_label_valid)
+            label[1] = csi.channel[1].dimm_label;
+
+        printf ("%s:%s:ch0 = %s\\n", mci.id, csi.id, label[0]);
+        printf ("%s:%s:ch1 = %s\\n", mci.id, csi.id, label[1]);
+    }
+}
+.fi
+.RE
+.PP
+.SH SEE ALSO
+\fBedac-util\fR(8), \fBedac-ctl\fR(8)
+
