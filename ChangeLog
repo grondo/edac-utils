@@ -6,6 +6,8 @@
 	* src/lib/Makefile.am, src/util/Makefile.am,
 	  configure.ac : Changes for new manpages.
 
+	* : tag version 0.9.
+
 2007-05-07 Mark Grondona <mgrondona@llnl.gov>
 
 	* : Added official UCRL number.
