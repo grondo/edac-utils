@@ -1,3 +1,8 @@
+2007-06-05 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/util/edac-ctl :
+	  Allow for whitespace in MB model name.
+
 2007-05-07 Mark Grondona <mgrondona@llnl.gov>
 	* src/lib/edac.3.in, src/util/edac-util.1.in, 
 	  src/util/edac-ctl.8.in :

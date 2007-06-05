@@ -248,7 +248,7 @@ sub guess_vendor_model {
     while (<DMI>) {
         $line++;
 
-        /^(\s*)(system|board) information/i || next LINE;
+        /^(\s*)(system|board|base board) information/i || next LINE;
         my $indent = $1;
 
         while ( <DMI> ) {
@@ -264,7 +264,6 @@ sub guess_vendor_model {
     close (DMI);
     return ($vendor, $model);
 }
-
 
 sub parse_dimm_labels
 {
@@ -292,7 +291,7 @@ sub parse_dimm_labels
         }
         if (/(model|board)\s*:\s*(.*)$/i) {
             !$vendor && die "$file: line $line: MB model without vendor\n";
-            @models = split(/[, ]+/, $2);
+            @models = grep { s/\s*(.*)\s*$/$1/ } split(/[,;]+/, $2);
             next;
         }
 
