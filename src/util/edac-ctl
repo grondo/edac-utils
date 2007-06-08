@@ -336,7 +336,7 @@ sub read_dimm_label
         return ("Error");
     }
 
-    chomp (my $label = <LABEL>);
+    chomp (my $label = <LABEL> || "");
 
     close (LABEL);
 
