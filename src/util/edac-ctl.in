@@ -31,12 +31,14 @@ use Getopt::Long;
 my $dmidecode   = "/usr/sbin/dmidecode";
 my $modprobe    = "/sbin/modprobe";
 my $lspci       = "/sbin/lspci";
+my $prefix      = "@prefix@";
+my $sysconfdir  = "@sysconfdir@";
 
 my %conf        = ();
 my %bus         = ();
 my $prog        = basename $0;
-$conf{labeldb}  = "/etc/edac/labels.db";
-$conf{driverdb} = "/etc/edac/driver.db";
+$conf{labeldb}  = "$sysconfdir/edac/labels.db";
+$conf{driverdb} = "$sysconfdir/edac/driver.db";
 
 
 my $status      = 0;

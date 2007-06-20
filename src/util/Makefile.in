@@ -43,7 +43,7 @@ bin_PROGRAMS = edac-util$(EXEEXT)
 subdir = src/util
 DIST_COMMON = $(dist_sbin_SCRIPTS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/edac-ctl.8.in \
-	$(srcdir)/edac-util.1.in
+	$(srcdir)/edac-ctl.in $(srcdir)/edac-util.1.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/config/x_ac_debug.m4 \
 	$(top_srcdir)/config/x_ac_libsysfs.m4 \
@@ -52,7 +52,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = edac-util.1 edac-ctl.8
+CONFIG_CLEAN_FILES = edac-util.1 edac-ctl.8 edac-ctl
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(sbindir)" \
 	"$(DESTDIR)$(man1dir)" "$(DESTDIR)$(man8dir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
@@ -248,6 +248,8 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 edac-util.1: $(top_builddir)/config.status $(srcdir)/edac-util.1.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 edac-ctl.8: $(top_builddir)/config.status $(srcdir)/edac-ctl.8.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+edac-ctl: $(top_builddir)/config.status $(srcdir)/edac-ctl.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)

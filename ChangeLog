@@ -1,3 +1,11 @@
+2007-06-20 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/util/edac-ctl : Removed.
+
+	* src/util/edac-ctl.in : Added. edac-ctl is now built from
+	  edac-ctl.in in order to get the correct value for
+	  sysconfdir.
+
 2007-06-08 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl :

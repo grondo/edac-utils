@@ -63,6 +63,7 @@ AC_CONFIG_FILES([
    src/util/Makefile
    src/util/edac-util.1
    src/util/edac-ctl.8
+   src/util/edac-ctl
    src/etc/Makefile
  ]
 )
