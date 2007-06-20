@@ -6,6 +6,18 @@
 	  edac-ctl.in in order to get the correct value for
 	  sysconfdir.
 
+	* src/etc/edac.init : Removed.
+
+	* src/etc/edac.init.in : Added. edac.init is now built
+	  from edac-init.in in order to substitute values for
+	  prefix, exec_prefix, and sbindir.
+
+	* configure.ac : Modifications needed to build the above.
+	  Fix declaration of PACKAGE and VERSION.
+
+	* Makefile.am, src/etc/Makefile.am : Fixes needed for
+	  'make distcheck'
+
 2007-06-08 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl :

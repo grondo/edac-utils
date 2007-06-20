@@ -20,8 +20,12 @@
 
 SERVICE="edac"
 
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
+sbindir="@sbindir@"
+
 PATH=/sbin:/usr/sbin:/usr/local/sbin:/bin:/usr/bin:/usr/local/bin
-EDAC=/usr/sbin/edac-ctl
+EDAC="$sbindir/edac-ctl"
 
 ###############################################################################
 

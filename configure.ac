@@ -34,7 +34,7 @@ AC_CANONICAL_HOST
 #
 #  Automake support
 # 
-AM_INIT_AUTOMAKE([$PACKAGE], [$VERSION])
+AM_INIT_AUTOMAKE([$META_NAME], [$META_VERSION])
 AC_CONFIG_HEADERS([config.h])
 AM_MAINTAINER_MODE
 #
@@ -65,6 +65,7 @@ AC_CONFIG_FILES([
    src/util/edac-ctl.8
    src/util/edac-ctl
    src/etc/Makefile
+   src/etc/edac.init
  ]
 )
 

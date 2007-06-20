@@ -16,3 +16,9 @@ install-data-local:
 	$(INSTALL) -m 755 -d "$(DESTDIR)$(sysconfdir)/edac/"; \
 	$(INSTALL) -m 644 $(srcdir)/driver.db $(srcdir)/labels.db \
 	    "$(DESTDIR)$(sysconfdir)/edac/"; 
+
+uninstall-local:
+	-rm -f "$(DESTDIR)$(sysconfdir)/init.d/edac"
+	-rm -f "$(DESTDIR)$(sysconfdir)/edac/labels.db"
+	-rm -f "$(DESTDIR)$(sysconfdir)/edac/driver.db"
+	-rmdir "$(DESTDIR)$(sysconfdir)/edac" 2>/dev/null
