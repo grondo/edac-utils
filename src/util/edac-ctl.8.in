@@ -23,7 +23,7 @@
 .\" 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA.
 .\"****************************************************************************
 
-.TH EDAC-CTL 8 "@META_DATE@" "@META_ALIAS" "EDAC admin utility"
+.TH EDAC-CTL 8 "@META_DATE@" "@META_ALIAS@" "EDAC admin utility"
 
 .SH NAME
 edac-ctl \- EDAC admin utility
