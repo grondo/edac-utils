@@ -1,0 +1,23 @@
+Source: edac-utils
+Section: admin
+Priority: extra
+Maintainer: Tim Small <tim@buttersideup.com>
+Build-Depends: cdbs, cdbs, debhelper (>= 5), autotools-dev
+Standards-Version: 3.7.2
+
+Package: edac-utils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Utilities to report kernel-detected PCI and ECC RAM errors.
+ This package contains the user-space utilities for use with the EDAC kernel
+ subsystem.  EDAC (Error Detection and Correction) is a set of Linux kernel
+ modules for handling hardware-related errors.  Currently its major focus is
+ ECC memory error handling. However it also detects and reports PCI bus parity
+ errors. 
+ .
+ PCI parity errors are supported on all architectures (and are a mandatory part
+ of the PCI specification).
+ .
+ Main memory ECC drivers are memory controller specific.  At the time of
+ writing, drivers exist for many x86-specific chipsets and CPUs, and some
+ PowerPC, and MIPS systems.
