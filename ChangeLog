@@ -1,3 +1,8 @@
+2007-06-29 Mark Grondona <mgrondona@llnl.gov>
+
+	* edac-utils.spec : sysfsutils-devel was renamed libsysfs-devel
+	  in RHEL5 - update BuildRequires.
+
 2007-06-20 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl : Removed.
