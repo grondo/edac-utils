@@ -1,3 +1,10 @@
+version 0.9 (2007-06-29):
+ - Allow for whitespace in motherboard vendor and model name in labels.db.
+ - Allow for empty DIMM labels in edac-ctl --print-labels.
+ - Properly substitute ./configure parameters (e.g. sysconfdir)
+   in final edac.init (init script) and edac-ctl scripts.
+ - Find locations of utilities used by edac-ctl at runtime.
+
 version 0.9 (2007-05-08):
  - Add manpages for edac-util(1), edac-ctl(8), and edac(3). 
 

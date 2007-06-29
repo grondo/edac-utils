@@ -6,6 +6,8 @@
 	* src/util/edac-ctl.in : Find paths to lspci, dmidecode, and
 	  modprobe at runtime using PATH.
 
+	* : tag v0.10.
+
 2007-06-20 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl : Removed.
