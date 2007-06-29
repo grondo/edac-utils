@@ -3,6 +3,9 @@
 	* edac-utils.spec : sysfsutils-devel was renamed libsysfs-devel
 	  in RHEL5 - update BuildRequires.
 
+	* src/util/edac-ctl.in : Find paths to lspci, dmidecode, and
+	  modprobe at runtime using PATH.
+
 2007-06-20 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl : Removed.

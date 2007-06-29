@@ -28,11 +28,11 @@ use strict;
 use File::Basename;
 use Getopt::Long;
 
-my $dmidecode   = "/usr/sbin/dmidecode";
-my $modprobe    = "/sbin/modprobe";
-my $lspci       = "/sbin/lspci";
 my $prefix      = "@prefix@";
 my $sysconfdir  = "@sysconfdir@";
+my $lspci       = find_prog ("lspci")     or exit (1);
+my $dmidecode   = find_prog ("dmidecode") or exit (1);
+my $modprobe    = find_prog ("modprobe")  or exit (1);
 
 my %conf        = ();
 my %bus         = ();
@@ -56,7 +56,6 @@ Usage: $prog [OPTIONS...]
  --driverdb=DB      Load driver database from file DB.
  --help             This help message.
 EOF
-
 
 parse_cmdline();
 
@@ -415,6 +414,14 @@ sub register_dimm_labels
     }
 }
 
-
+sub find_prog
+{
+    my ($file) = @_;
+    for my $dir ("/sbin", "/usr/sbin", split ':', $ENV{PATH}) {
+        return "$dir/$file" if -x "$dir/$file";
+    }
+    print STDERR "Failed to find $file in PATH\n";
+    return "";
+}
 
 # vi: ts=4 sw=4 expandtab
