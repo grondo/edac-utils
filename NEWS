@@ -1,4 +1,4 @@
-version 0.9 (2007-06-29):
+version 0.10 (2007-06-29):
  - Allow for whitespace in motherboard vendor and model name in labels.db.
  - Allow for empty DIMM labels in edac-ctl --print-labels.
  - Properly substitute ./configure parameters (e.g. sysconfdir)
