@@ -1,6 +1,0 @@
-edac-utils for Debian
----------------------
-
-Initial Debian version.  The init script is not properly Debianised yet (symlinks are not created etc.).  Some paths are hardcoded by upstream, these will be fixed soon so are not patched in the Debian package.  More stuff coming soon.
-
- -- Tim Small <tim@buttersideup.com>  Thu, 21 Jun 2007 17:21:21 +0100

@@ -1,3 +1,8 @@
+2007-10-12 Mark Grondona <mgrondona@llnl.gov>
+
+	* debian/ : Remove debian directory as requested by 
+	  Yaroslav Halchenko <debian at onerussian.com>
+
 2007-06-29 Mark Grondona <mgrondona@llnl.gov>
 
 	* edac-utils.spec : sysfsutils-devel was renamed libsysfs-devel
