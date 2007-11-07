@@ -209,8 +209,8 @@ sub find_edac_driver
     open (LSPCI, "$cmd |") or die "$prog: Unable to run $cmd: $!\n";
 
     while (<LSPCI>) {
-        next unless /^[\d:\.]+ Class \w+: ([0-9a-f]+:[0-9a-f]+)/i;
-        (my $key = $1) =~ s/0x//g;
+        next unless /^[\d:\.]+ (Class |)\w+: ([0-9a-f]+:[0-9a-f]+)/i;
+        (my $key = $2) =~ s/0x//g;
         last if (exists $conf{driver}{$key} && ($driver = $conf{driver}{$key}));
     }
     close (LSPCI) or warn "$prog: $cmd exited with $?\n";

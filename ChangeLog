@@ -1,3 +1,8 @@
+2007-11-06 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/util/edac-ctl.in : Allow parsing of `lspci -n` output without
+	  "Class" string (lspci 2.2.3).
+
 2007-10-12 Mark Grondona <mgrondona@llnl.gov>
 
 	* debian/ : Remove debian directory as requested by 
