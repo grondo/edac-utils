@@ -1,5 +1,8 @@
 2007-11-06 Mark Grondona <mgrondona@llnl.gov>
 
+	* src/etc/labels.db : Add Dell PowerEdge 1850 and Asus A85NX, A8N-E,
+	  and "KFN5-D SLI" to labels database.
+
 	* src/util/edac-ctl.in : Allow parsing of `lspci -n` output without
 	  "Class" string (lspci 2.2.3).
 
