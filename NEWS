@@ -1,3 +1,8 @@
+version 0.11 (2007-11-06):
+ - Fix for edac-ctl parsing of 'lspci -n' output in lspci 2.2.3.
+ - Add labels for Dell PowerEdge 1850 and AsusTek A85NX, A8N-E, and KFN5-D SLI.
+ - Removed debian directory from repository
+	
 version 0.10 (2007-06-29):
  - Allow for whitespace in motherboard vendor and model name in labels.db.
  - Allow for empty DIMM labels in edac-ctl --print-labels.

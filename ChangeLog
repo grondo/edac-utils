@@ -6,6 +6,8 @@
 	* src/util/edac-ctl.in : Allow parsing of `lspci -n` output without
 	  "Class" string (lspci 2.2.3).
 
+	* : tag v0.11.
+
 2007-10-12 Mark Grondona <mgrondona@llnl.gov>
 
 	* debian/ : Remove debian directory as requested by 
