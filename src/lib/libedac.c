@@ -564,10 +564,13 @@ static int edac_totals_refresh (edac_handle *edac)
     struct dl_node *i;
 
 
-    if (edac->pci)
-        get_sysfs_uint_attr (edac->pci, 
-                             (unsigned int *) &edac->pci_parity_count, 
-                             "pci_parity_count");
+    if (edac->pci) {
+        int rc = get_sysfs_uint_attr (edac->pci, 
+                           (unsigned int *) &edac->pci_parity_count, 
+                           "pci_parity_count");
+        if (rc < 0)
+            return (-1);
+    }
 
     if (edac->mc_list->count == 0) {
         edac->error_num = EDAC_MC_OPEN_FAILED;
