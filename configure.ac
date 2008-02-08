@@ -66,6 +66,7 @@ AC_CONFIG_FILES([
    src/util/edac-ctl
    src/etc/Makefile
    src/etc/edac.init
+   src/etc/udev.rules
  ]
 )
 

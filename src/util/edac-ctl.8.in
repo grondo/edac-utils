@@ -43,21 +43,10 @@ drivers.
 .BI "--help"
 Display a brief usage message.
 .TP
-.BI "--driver"
-Attempt to determine the name of a valid EDAC driver for the current
-hardware. This uses a driver database in /etc/edac/driver.db,
-along with the output of \fBlspci\fR(8).
-.TP
 .BI "--mainboard"
 Print mainboard vendor and model for this hardware, if available.
 This option requires that the \fBdmidecode\fR(8) utility be installed,
 and must be run as root.
-.TP
-.BI "--load"
-Load EDAC drivers.
-.TP
-.BI "--unload"
-Unload EDAC drivers.
 .TP
 .BI "--status"
 Print the status of EDAC drivers (loaded or unloaded).
@@ -75,9 +64,6 @@ well as the current labels registered with EDAC.
 .TP
 .BI "--labeldb="DB
 Specify an alternate location for the labels database.
-.TP
-.BI "--driverdb="DB
-Specify and alternate location for the EDAC driver database.
 
 .SH SEE ALSO
 \fBedac\fR(3), \fBedac-util\fR(1)

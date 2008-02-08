@@ -1,3 +1,28 @@
+2008-02-08 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/util/edac-ctl.in, src/util/edac-util.8.in : 
+	  Remove --load, --unload, and --driver options. 
+	  These aren't needed since EDAC drivers will be 
+	  automatically loaded on most current distros.
+
+	* src/etc/driver.db : Removed.
+
+	* src/etc/edac.init.in : Remove driver load/unload 
+	  functionality which is unnecessary. Init script now does
+	  nothing unless /etc/sysconfig/edac exists and sets
+	  $EDAC_DRIVER (Fallback case).
+
+	* src/etc/udev.rules.in : Add udev rules file to 
+	  automatically register DIMM labels using edac-ctl
+	  when an EDAC driver is loaded. (Replaces similar 
+	  functionality from init script).
+
+	* src/etc/Makefile.am, configure.ac, edac-utils.spec : 
+	  Create and install udev rules.
+
+	* configure, src/etc/Makefile.in :
+	  Re-run bootstrap.
+
 2008-01-25 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/lib/libedac.c (edac_totals_refresh) :

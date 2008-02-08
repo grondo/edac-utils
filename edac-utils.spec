@@ -65,5 +65,6 @@ fi
 %dir %attr(0755,root,root) %{_sysconfdir}/edac
 %config(noreplace) %{_sysconfdir}/edac/*
 %{_sysconfdir}/init.d/edac
+%{_sysconfdir}/udev/rules.d/*
 
 

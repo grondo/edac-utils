@@ -30,7 +30,6 @@ use Getopt::Long;
 
 my $prefix      = "@prefix@";
 my $sysconfdir  = "@sysconfdir@";
-my $lspci       = find_prog ("lspci")     or exit (1);
 my $dmidecode   = find_prog ("dmidecode") or exit (1);
 my $modprobe    = find_prog ("modprobe")  or exit (1);
 
@@ -38,22 +37,18 @@ my %conf        = ();
 my %bus         = ();
 my $prog        = basename $0;
 $conf{labeldb}  = "$sysconfdir/edac/labels.db";
-$conf{driverdb} = "$sysconfdir/edac/driver.db";
 
 
 my $status      = 0;
 
 my $usage       = <<EOF;
 Usage: $prog [OPTIONS...]
- --driver           Print name of valid EDAC driver for this HW.
  --mainboard        Print mainboard vendor and model for this hardware.
- --load             Load EDAC drivers.
- --unload           Unload EDAC drivers.
  --status           Print status of EDAC drivers.
  --print-labels     Print Motherboard DIMM labels to stdout.
  --register-labels  Load Motherboard DIMM labels into EDAC driver.
+ --delay=N          Delay N seconds before writing DIMM labels.
  --labeldb=DB       Load label database from file DB.
- --driverdb=DB      Load driver database from file DB.
  --help             This help message.
 EOF
 
@@ -79,39 +74,21 @@ if (  $conf{opt}{mainboard} || $conf{opt}{print_labels}
 
 }
 
-if (  $conf{opt}{load} || $conf{opt}{unload} || $conf{opt}{status} 
-   || $conf{opt}{driver} ) {
-    if (!($conf{driver} = find_edac_driver ())) {
-        print STDERR "No EDAC support for this hardware.\n";
-    }
-
-    $conf{opt}{driver} && print "$conf{driver}_edac\n";
-    $conf{opt}{status} && ($status = print_status ());
-
-    if ($conf{opt}{load}) {
-        run_cmd ("$modprobe -a $conf{driver}_edac");
-        my $rc = ($? >> 8); exit ($rc);
-    } elsif ($conf{opt}{unload}) {
-        run_cmd ("$modprobe -r $conf{driver}_edac");
-        exit ($? >> 8);
-    } elsif ($conf{opt}{status}) {
-        exit ($status ? 0 : 1);
-    }
+if ($conf{opt}{status}) {
+    $status = print_status ();
+    exit ($status ? 0 : 1);
 }
-
 
 exit (0);
 
 sub parse_cmdline
 {
-    $conf{opt}{driver} = 0;
     $conf{opt}{mainboard} = '';
     $conf{opt}{print_labels} = 0;
     $conf{opt}{register_labels} = 0;
-    $conf{opt}{load} = 0;
-    $conf{opt}{unload} = 0;
     $conf{opt}{status} = 0;
     $conf{opt}{quiet} = 0;
+    $conf{opt}{delay} = 0;
 
     my $rref = \$conf{opt}{report};
     my $mref = \$conf{opt}{mainboard};
@@ -122,22 +99,18 @@ sub parse_cmdline
                          "quiet" =>           \$conf{opt}{quiet},
                          "print-labels" =>    \$conf{opt}{print_labels},
                          "register-labels" => \$conf{opt}{register_labels},
+                         "delay:s" =>         \$conf{opt}{delay},
                          "labeldb=s" =>       \$conf{labeldb},
-                         "driverdb=s" =>      \$conf{driverdb},
-                         "driver" =>          \$conf{opt}{driver},
-                         "load" =>            \$conf{opt}{load},
-                         "unload" =>          \$conf{opt}{unload},
                          "status" =>          \$conf{opt}{status});
         
     usage(1) if !$rc;
 
     usage (0) if !grep $conf{opt}{$_}, keys %{$conf{opt}}; 
 
-    if ($conf{opt}{status} + $conf{opt}{load} + $conf{opt}{unload} > 1) {
-        print STDERR "Specify only one of --status --load or --unload\n";
-        usage (1);
+    if ($conf{opt}{delay} && !$conf{opt}{register_labels}) {
+        print STDERR "Only use --delay with --register-labels\n";
+        exit (1);
     }
-
 }
 
 sub usage
@@ -162,7 +135,7 @@ sub print_status
          or die "Unable to open /proc/modules: $!\n";
 
     while (<MODULES>) {
-       $status = 1 if /$conf{driver}_edac/;
+       $status = 1 if /_edac/;
     }
 
     print "$prog: drivers ", ($status ? "are" : "not"), " loaded.\n"
@@ -170,54 +143,6 @@ sub print_status
 
     return ($status);
 }
-
-
-sub parse_driver_db
-{
-    my $driver = "";
-    open CONF, "< $conf{driverdb}"
-         or die "Unable to open driver DB: \"$conf{driverdb}\": $!";
-    while (<CONF>) {
-        chomp;
-        s/#.*$//;
-        s/^\s+//;
-        s/\s+$//;
-        next unless length;
-
-        if (/^Driver\s+(\S+)\s*:/i) {
-            $driver = $1;
-            next;
-        }
-        next unless $driver;
-
-        if (my ($vendor, $ids) = /^\s*(\w+)\s*:\s*(.*)/) {
-            $vendor =~ s/^0x//;
-            $ids    =~ s/0x//g;
-            map { $conf{driver}{"$vendor:$_"} = $driver}
-               split(/[, ]+/, $ids)
-        }
-    }
-}
-
-sub find_edac_driver
-{
-    my $cmd = $lspci . ' -n';
-    my $driver = "";
-
-    parse_driver_db();
-
-    open (LSPCI, "$cmd |") or die "$prog: Unable to run $cmd: $!\n";
-
-    while (<LSPCI>) {
-        next unless /^[\d:\.]+ (Class |)\w+: ([0-9a-f]+:[0-9a-f]+)/i;
-        (my $key = $2) =~ s/0x//g;
-        last if (exists $conf{driver}{$key} && ($driver = $conf{driver}{$key}));
-    }
-    close (LSPCI) or warn "$prog: $cmd exited with $?\n";
-
-    return $driver;
-}
-
 
 
 sub get_mainboard_info {
@@ -389,6 +314,8 @@ sub register_dimm_labels
                                         "$conf{mainboard}{model} \n";
         return;
     }
+
+    select (undef, undef, undef, $conf{opt}{delay});
 
     for my $mc (sort keys %{$$lref{$vendor}{$model}}) {
         for my $row (sort keys %{$$lref{$vendor}{$model}{$mc}}) {

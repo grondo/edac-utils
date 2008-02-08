@@ -18,14 +18,27 @@
 ### END INIT INFO
 ###############################################################################
 
+unset SERVICE
+
 SERVICE="edac"
 
 prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 sbindir="@sbindir@"
+sysconfdir="@sysconfdir@"
 
 PATH=/sbin:/usr/sbin:/usr/local/sbin:/bin:/usr/bin:/usr/local/bin
-EDAC="$sbindir/edac-ctl"
+STATUS=0
+
+###############################################################################
+
+# Read configuration to see if we need to load 
+#  EDAC_DRIVER 
+# 
+for dir in "$sysconfdir/default" "$sysconfdir/sysconfig"; do
+  [ -f "$dir/$SERVICE" ] && . "$dir/$SERVICE"
+done
+
 
 ###############################################################################
 
@@ -33,16 +46,18 @@ service_start ()
 {
 # Start the service.  Required by LSB.
 #
+# Assume that if EDAC_DRIVER is not set, then EDAC is configured
+#  automatically, thus return successfully, but don't do anything.
+#
+  [ -n "$EDAC_DRIVER" ] || return 0
   echo -n "Starting ${SERVICE}: "
-  $EDAC --quiet --load
-  rc=$?
-  $EDAC --register-labels
-  case $rc in 
+  modprobe $EDAC_DRIVER
+  STATUS=$?
+  case $STATUS in 
     0) echo success ;;
     5) echo No EDAC support for this hardware. ;;
     *) echo failure ;;
   esac
-
 }
 
 ###############################################################################
@@ -50,9 +65,14 @@ service_start ()
 service_stop ()
 {
   echo -n "Disabling ${SERVICE}: "
-  $EDAC --unload
-  rc=$?
-  [ $rc -eq 0 ] && echo success || echo failure
+  if [ -n "$EDAC_DRIVER" ]; then
+    modprobe -r $EDAC_DRIVER
+    STATUS=$?
+    [ $STATUS -eq 0 ] && echo success || echo failure
+  else
+    echo "Not supported for this configuration."
+    STATUS=6
+  fi
 }
 
 ###############################################################################
@@ -61,13 +81,13 @@ service_status ()
 {
 # Print the current status of the service.  Required by LSB.
 #
-  $EDAC --status
-  rc=0
+  edac-ctl --status
+  STATUS=0
 }
 
 ###############################################################################
 
-rc=4
+STATUS=4
 
 case "$1" in
   start)
@@ -82,6 +102,8 @@ case "$1" in
   *)
     COMMANDS="start|stop|status"
     echo "Usage: $0 {${COMMANDS}}"
-    exit 1
+    exit 2
     ;;
 esac
+
+exit $STATUS

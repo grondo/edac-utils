@@ -1,0 +1,12 @@
+#  $Id$ 
+#
+#  Load edac labels once an edac mdule is registered.
+# 
+#  We really should key off the *last* udev event, instead of what perhaps
+#   is the first, but triggering on the module is the only sane way
+#   I can see to do it at this time. Hopefully, all sysfs labels files
+#   will be created by the time edac-ctl starts trying to write labels.
+#   (extra delay before writing labels is added expressly for this  purpose) 
+#
+ACTION=="add", DEVPATH=="/module/*_edac", 
+RUN+="@prefix@/sbin/edac-ctl --delay=0.1 --register-labels"
