@@ -1,5 +1,9 @@
 2008-02-08 Mark Grondona <mgrondona@llnl.gov>
 
+	* : tag v0.12.
+
+2008-02-08 Mark Grondona <mgrondona@llnl.gov>
+
 	* src/util/edac-ctl.in, src/util/edac-util.8.in : 
 	  Remove --load, --unload, and --driver options. 
 	  These aren't needed since EDAC drivers will be 

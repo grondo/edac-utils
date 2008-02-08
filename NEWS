@@ -1,3 +1,13 @@
+version 0.12 (2008-02-08):
+ - The edac-ctl script is no longer responsible for the load and unload
+   of EDAC drivers. The drivers will automatically be loaded in most
+   current distributions. 
+ - The "edac" init script no longer does anything unless EDAC_DRIVER
+   is set in /etc/sysconfig/edac (or equivalent). Set EDAC_DRIVER to the
+   driver name to load if drivers aren't being automatically loaded.
+ - DIMM labels are now automatically registered at driver load time
+   through a udev rule installed by edac-utils.
+
 version 0.11 (2007-11-06):
  - Fix for edac-ctl parsing of 'lspci -n' output in lspci 2.2.3.
  - Add labels for Dell PowerEdge 1850 and AsusTek A85NX, A8N-E, and KFN5-D SLI.

@@ -24,9 +24,11 @@ Requires: sysfsutils
 EDAC is the current set of drivers in the Linux kernel that handle
 detection of ECC errors from memory controllers for most chipsets
 on i386 and x86_64 architectures. This userspace component consists
-of an init script which makes sure EDAC drivers and DIMM labels
-are loaded at system startup, as well as a library and utility
-for reporting current error counts from the EDAC sysfs files.
+of a udev rules file which attempts to load DIMM labels after any
+EDAC drivers are loaded, and an init script which can be configured
+to load a specific EDAC driver if this is done automatically at system 
+startup. The package also includes a library and utility for reporting 
+current error counts from the EDAC sysfs files.
 
 
 %prep 
