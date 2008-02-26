@@ -43,6 +43,7 @@ my $status      = 0;
 
 my $usage       = <<EOF;
 Usage: $prog [OPTIONS...]
+ --quiet            Quiet operation.
  --mainboard        Print mainboard vendor and model for this hardware.
  --status           Print status of EDAC drivers.
  --print-labels     Print Motherboard DIMM labels to stdout.
@@ -108,7 +109,7 @@ sub parse_cmdline
     usage (0) if !grep $conf{opt}{$_}, keys %{$conf{opt}}; 
 
     if ($conf{opt}{delay} && !$conf{opt}{register_labels}) {
-        print STDERR "Only use --delay with --register-labels\n";
+        log_error ("Only use --delay with --register-labels\n");
         exit (1);
     }
 }
@@ -229,7 +230,7 @@ sub parse_dimm_labels
             next unless (my ($label, $info) = ($str =~ /^(.*)\s*:\s*(.*)$/i));
 
             unless ($info =~ /(\d\.\d\.\d,*)+/) {
-                print STDERR "$file: $line: Invalid syntax, ignoring: \"$_\"\n";
+                log_error ("$file: $line: Invalid syntax, ignoring: \"$_\"\n");
                 next;
             }
 
@@ -278,8 +279,8 @@ sub print_dimm_labels
     my $format = "%-35s %-20s %-20s\n";
 
     if (!exists $$lref{$vendor}{$model}) {
-        print STDERR "No dimm labels for $conf{mainboard}{vendor} " .
-                     "$conf{mainboard}{model} \n";
+        log_error ("No dimm labels for $conf{mainboard}{vendor} " .
+                   "$conf{mainboard}{model}\n");
         return;
     }
 
@@ -310,9 +311,9 @@ sub register_dimm_labels
     my $sysfs  = "/sys/devices/system/edac/mc";
 
     if (!exists $$lref{$vendor}{$model}) {
-        print STDERR "No dimm labels for $conf{mainboard}{vendor} " .
-                                        "$conf{mainboard}{model} \n";
-        return;
+        log_error ("No dimm labels for $conf{mainboard}{vendor} " .
+                                      "$conf{mainboard}{model}\n");
+        return 0;
     }
 
     select (undef, undef, undef, $conf{opt}{delay});
@@ -339,6 +340,7 @@ sub register_dimm_labels
             }
         }
     }
+    return 1;
 }
 
 sub find_prog
@@ -347,8 +349,11 @@ sub find_prog
     for my $dir ("/sbin", "/usr/sbin", split ':', $ENV{PATH}) {
         return "$dir/$file" if -x "$dir/$file";
     }
-    print STDERR "Failed to find $file in PATH\n";
+    log_error ("Failed to find $file in PATH\n");
     return "";
 }
+
+sub log_msg   { print STDERR "$prog: ", @_ unless $conf{opt}{quiet}; }
+sub log_error { log_msg ("Error: $@"); }
 
 # vi: ts=4 sw=4 expandtab
