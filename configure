@@ -19239,7 +19239,7 @@ echo "${ECHO_T}${ac_have_sysfs_open_device_tree=yes}" >&6
 
 
 
-                                                                                                              ac_config_files="$ac_config_files Makefile src/Makefile src/lib/Makefile src/lib/edac.3 src/util/Makefile src/util/edac-util.1 src/util/edac-ctl.8 src/util/edac-ctl src/etc/Makefile src/etc/edac.init src/etc/udev.rules"
+                                                                                                    ac_config_files="$ac_config_files Makefile src/Makefile src/lib/Makefile src/lib/edac.3 src/util/Makefile src/util/edac-util.1 src/util/edac-ctl.8 src/util/edac-ctl src/etc/Makefile src/etc/edac.init"
 
 
 cat >confcache <<\_ACEOF
@@ -19815,7 +19815,6 @@ do
   "src/util/edac-ctl" ) CONFIG_FILES="$CONFIG_FILES src/util/edac-ctl" ;;
   "src/etc/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/etc/Makefile" ;;
   "src/etc/edac.init" ) CONFIG_FILES="$CONFIG_FILES src/etc/edac.init" ;;
-  "src/etc/udev.rules" ) CONFIG_FILES="$CONFIG_FILES src/etc/udev.rules" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5

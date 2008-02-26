@@ -1,3 +1,20 @@
+2008-02-26 Mark Grondona <mgrondona@llnl.gov>
+
+	* configure, src/etc/Makefile.am :
+	  Re-run ./bootstrap.
+
+	* src/util/edac-ctl.in : 
+	  Improve quietness with --quiet option.
+
+	* src/etc/edac.init.in : 
+	  Load EDAC DIMM labels in init script.
+
+	* src/etc/udev.rules.in, src/etc/Makefile.am, configure.ac  :
+	  Remove udev rules file. Using udev rules to trigger the load
+	  of EDAC DIMM labels is not reliable as the rules are triggered
+	  too early on boot (and edac-ctl script may not even be availble
+	  at that time.)
+
 2008-02-08 Mark Grondona <mgrondona@llnl.gov>
 
 	* : tag v0.12.

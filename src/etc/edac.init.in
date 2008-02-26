@@ -26,11 +26,14 @@ prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 sbindir="@sbindir@"
 sysconfdir="@sysconfdir@"
+edac_ctl="$sbindir/edac-ctl"
 
 PATH=/sbin:/usr/sbin:/usr/local/sbin:/bin:/usr/bin:/usr/local/bin
 STATUS=0
 
 ###############################################################################
+
+# Don't need to source /etc/init.d/functions at this time
 
 # Read configuration to see if we need to load 
 #  EDAC_DRIVER 
@@ -49,14 +52,22 @@ service_start ()
 # Assume that if EDAC_DRIVER is not set, then EDAC is configured
 #  automatically, thus return successfully, but don't do anything.
 #
-  [ -n "$EDAC_DRIVER" ] || return 0
-  echo -n "Starting ${SERVICE}: "
-  modprobe $EDAC_DRIVER
+  if [ -n "$EDAC_DRIVER" ]; then
+     echo -n "Starting ${SERVICE}: "
+     modprobe $EDAC_DRIVER
+     STATUS=$?
+     case $STATUS in 
+       0) echo success ;;
+       5) echo No EDAC support for this hardware. ;;
+       *) echo failure ;;
+     esac
+  fi
+  echo -n "Loading ${SERVICE} DIMM labels: "
+  $edac_ctl --register-labels --quiet
   STATUS=$?
-  case $STATUS in 
-    0) echo success ;;
-    5) echo No EDAC support for this hardware. ;;
-    *) echo failure ;;
+  case $STATUS in
+   0) echo success ;;
+   *) echo failure ;;
   esac
 }
 

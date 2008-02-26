@@ -37,7 +37,7 @@ build_triplet = @build@
 host_triplet = @host@
 subdir = src/etc
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/edac.init.in $(srcdir)/udev.rules.in
+	$(srcdir)/edac.init.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/config/x_ac_debug.m4 \
 	$(top_srcdir)/config/x_ac_libsysfs.m4 \
@@ -46,7 +46,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = edac.init udev.rules
+CONFIG_CLEAN_FILES = edac.init
 SOURCES =
 DIST_SOURCES =
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -199,8 +199,6 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 edac.init: $(top_builddir)/config.status $(srcdir)/edac.init.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-udev.rules: $(top_builddir)/config.status $(srcdir)/udev.rules.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -334,15 +332,12 @@ install-data-local:
 	$(INSTALL) -m 755 -d "$(DESTDIR)$(sysconfdir)/init.d"; \
 	$(INSTALL) -m 755 $(srcdir)/edac.init \
 	    "$(DESTDIR)$(sysconfdir)/init.d/edac"; \
-	$(INSTALL) -m 644 -D $(srcdir)/udev.rules \
-	    "$(DESTDIR)/etc/udev/rules.d/60-edac-utils.rules"; \
 	$(INSTALL) -m 755 -d "$(DESTDIR)$(sysconfdir)/edac/"; \
 	$(INSTALL) -m 644 $(srcdir)/labels.db "$(DESTDIR)$(sysconfdir)/edac/"; 
 
 uninstall-local:
 	-rm -f "$(DESTDIR)$(sysconfdir)/init.d/edac"
 	-rm -f "$(DESTDIR)$(sysconfdir)/edac/labels.db"
-	-rm -f "$(DESTDIR)$(sysconfdir)/udev/rules.d/60-edac-utils.rules"
 	-rmdir "$(DESTDIR)$(sysconfdir)/edac" 2>/dev/null
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
