@@ -1,3 +1,8 @@
+version 0.13 (2008-02-26):
+ - Abandon use of udev rules to load EDAC DIMM labels. Most often
+   the udev rules were called too early in boot to be effective.
+ - Reinstate load of DIMM labels in EDAC init script.
+
 version 0.12 (2008-02-08):
  - The edac-ctl script is no longer responsible for the load and unload
    of EDAC drivers. The drivers will automatically be loaded in most
