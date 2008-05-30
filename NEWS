@@ -1,3 +1,8 @@
+version 0.14 (2008-05-30):
+ - Fix typos in edac-util(1) man page.
+ - Remove any extra newlines on EDAC DIMM labels.
+ - Add Supermicro H8DA3-2 DIMM labels to label db.
+
 version 0.13 (2008-02-26):
  - Abandon use of udev rules to load EDAC DIMM labels. Most often
    the udev rules were called too early in boot to be effective.
