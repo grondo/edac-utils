@@ -68,6 +68,11 @@ Vendor: Supermicro
     DIMMC 2A: 3.0.0, 3.1.0; DIMMC 2B: 3.0.1, 3.1.1;
     DIMMC 1A: 3.2.0, 3.3.0; DIMMC 1B: 3.2.1, 3.3.1;
 
+  Model: H8DA3-2
+    DIMMA 1B: 0.3.1; DIMMA 1A: 0.3.0;
+    DIMMA 2B: 0.1.1; DIMMA 2A: 0.1.0;
+    DIMMB 1B: 1.3.1; DIMMB 1A: 1.3.0;
+    DIMMB 2B: 1.1.1; DIMMB 2A: 1.1.0;
 
 Vendor: Dell Computer Corporation
 

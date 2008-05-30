@@ -1,5 +1,8 @@
 2008-05-30 Mark Grondona <mgrondona@llnl.gov>
 
+	* src/etc/labels.db : 
+	  Add labels for Supermicro H8DA3-2.
+
 	* src/lib/libedac.c : 
 	  Remove any newlines in EDAC DIMM labels names.
 
