@@ -1,3 +1,8 @@
+2008-05-30 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/lib/libedac.c : 
+	  Remove any newlines in EDAC DIMM labels names.
+
 2008-02-26 Mark Grondona <mgrondona@llnl.gov>
 
 	* : tag v0.13.

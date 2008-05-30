@@ -312,6 +312,14 @@ static inline void edac_dlist_reset (struct dlist *l)
     dlist_next (l);
 }
 
+static inline void remove_newline (char *str)
+{
+    int len = strlen (str);
+
+    if (len && str[len - 1] == '\n')
+        str[len - 1] = '\0';
+}
+
 static int
 edac_channel_refresh (struct edac_csrow *csrow, int id)
 {
@@ -335,6 +343,8 @@ edac_channel_refresh (struct edac_csrow *csrow, int id)
        && (chan->dimm_label[0] != '\n') ) {
         chan->dimm_label_valid = 1;
     }
+
+    remove_newline (chan->dimm_label);
 
     chan->valid = 1;
     return (0);
