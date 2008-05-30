@@ -1,5 +1,8 @@
 2008-05-30 Mark Grondona <mgrondona@llnl.gov>
 
+	* src/util/edac-ctl.1.in :
+	  Clean up some language and fix typos.
+
 	* src/etc/labels.db : 
 	  Add labels for Supermicro H8DA3-2.
 

@@ -83,8 +83,8 @@ labels have been registered in sysfs.
 
 The default report will also
 display any errors that do not have any DIMM information. These
-errors occur when errors are reported in the memory controllers
-overflow or similar registers, indicating that more than one error
+errors occur when errors are reported in the memory controller
+overflow register, indicating that more than one error
 occurred during a given EDAC poll cycle. It is usually obvious
 from which DIMM locations these errors were generated.
 .TP
@@ -114,8 +114,8 @@ With the \fI\-\-quiet\fR option, output will be suppressed unless
 there are 1 or more errors to report.
 .TP
 .B ce
-This report simply displays the total number of Uncorrected Errors
-(UEs) detected on the system.
+This report simply displays the total number of Corrected Errors
+(CEs) detected on the system.
 With the \fI\-\-quiet\fR option, output will be suppressed unless
 there are 1 or more errors to report.
 
