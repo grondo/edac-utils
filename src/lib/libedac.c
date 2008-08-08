@@ -208,12 +208,12 @@ int edac_handle_reset (edac_handle *edac)
 
 int edac_error_totals (edac_handle *edac, struct edac_totals *tot)
 {
-    memset (tot, 0, sizeof (*tot));
-
     if ((edac == NULL) || (tot == NULL)) {
         errno = EINVAL;
         return (-1);
     }
+
+    memset (tot, 0, sizeof (*tot));
 
     if (!edac->totals_valid)  {
         if (edac_totals_refresh (edac) < 0) {
