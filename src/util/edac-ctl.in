@@ -161,7 +161,7 @@ sub get_mainboard_info {
     $conf{mainboard}{model}  = $model;
 }
 
-sub guess_vendor_model {
+sub guess_vendor_model_dmidecode {
     my ($vendor, $model);
     my $line = 0;
 
@@ -185,11 +185,38 @@ sub guess_vendor_model {
             /(?:manufacturer|vendor):\s*(.*\S)\s*/i && ( $vendor = $1 );
             /product(?: name)?:\s*(.*\S)\s*/i       && ( $model  = $1 );
             last LINE if ($vendor && $model);
-	    }
+        }
     }
 
     close (DMI);
     return ($vendor, $model);
+}
+
+sub guess_vendor_model_sysfs {
+    #
+    #  Try to look up DMI information in sysfs
+    #
+    open (VENDOR, "/sys/class/dmi/id/board_vendor") or return undef;
+    open (MODEL,  "/sys/class/dmi/id/board_name")   or return undef;
+
+    my ($vendor, $model) = (<VENDOR>, <MODEL>);
+
+    close (VENDOR);
+    close (MODEL);
+
+    return undef unless ($vendor && $model);
+
+    chomp ($vendor, $model);
+
+    return ($vendor, $model);
+}
+
+sub guess_vendor_model {
+    my ($vendor, $model) = &guess_vendor_model_sysfs ();
+
+    return ($vendor, $model) if ($vendor && $model);
+
+    return (&guess_vendor_model_dmidecode ());
 }
 
 sub parse_dimm_labels

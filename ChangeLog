@@ -1,5 +1,9 @@
 2008-09-19 Mark Grondona <mgrondona@llnl.gov>
 
+	* src/util/edac-ctl.in : 
+	  Try to obtain DMI values from sysfs (/sys/class/dmi/id/board*)
+	  first and fall back to dmidecode if this method fails.
+
 	* src/util/edac-ctl.in :
 	  When processing dmidecode output, don't include
 	  the "System Information" stanza, which has been seen
