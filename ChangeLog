@@ -1,3 +1,11 @@
+2008-09-19 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/util/edac-ctl.in :
+	  When processing dmidecode output, don't include
+	  the "System Information" stanza, which has been seen
+	  to include bogus data. The MB vendor and model is in
+	  the "Base Board Information" stanza.
+
 2008-08-08 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/lib/libedac.c (edac_error_totals) : 

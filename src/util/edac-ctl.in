@@ -175,7 +175,7 @@ sub guess_vendor_model {
     while (<DMI>) {
         $line++;
 
-        /^(\s*)(system|board|base board) information/i || next LINE;
+        /^(\s*)(board|base board) information/i || next LINE;
         my $indent = $1;
 
         while ( <DMI> ) {
@@ -183,10 +183,10 @@ sub guess_vendor_model {
             $1 lt $indent && last LINE;
             $indent = $1;
             /(?:manufacturer|vendor):\s*(.*\S)\s*/i && ( $vendor = $1 );
-	        /product(?: name)?:\s*(.*\S)\s*/i       && ( $model  = $1 );
+            /product(?: name)?:\s*(.*\S)\s*/i       && ( $model  = $1 );
             last LINE if ($vendor && $model);
 	    }
-	}
+    }
 
     close (DMI);
     return ($vendor, $model);
