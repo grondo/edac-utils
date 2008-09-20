@@ -54,8 +54,9 @@ Print the status of EDAC drivers (loaded or unloaded).
 .BI "--register-labels"
 Register motherboard DIMM labels into EDAC driver sysfs files.
 This option uses the detected mainboard manufacturer and model
-number in combination with a "labels database" file found
-in /etc/edac/labels.db. An entry for the current hardware must
+number in combination with a "labels database" found in any
+of the files under /etc/edac/labels.d/* or in the labels.db file
+at /etc/edac/labels.db. An entry for the current hardware must
 exist in the labels database for this option to do anything.
 .TP
 .BI "--print-labels"

@@ -37,6 +37,7 @@ my %conf        = ();
 my %bus         = ();
 my $prog        = basename $0;
 $conf{labeldb}  = "$sysconfdir/edac/labels.db";
+$conf{labeldir} = "$sysconfdir/edac/labels.d";
 
 
 my $status      = 0;
@@ -219,13 +220,12 @@ sub guess_vendor_model {
     return (&guess_vendor_model_dmidecode ());
 }
 
-sub parse_dimm_labels
+sub parse_dimm_labels_file
 {
-    my %labels = ();
+    my ($lh, $file) = (@_);
     my $line = -1;
     my $vendor = "";
     my @models = ();
-    my $file = $conf{labeldb};
 
     open (LABELS, "$file") 
         or die "Unable to open label database: $file: $!\n";
@@ -264,7 +264,7 @@ sub parse_dimm_labels
             for my $target (split (/[, ]+/, $info)) {
                 my ($mc, $row, $chan) = ($target =~ /(\d+)\.(\d+)\.(\d+)/);
 
-                map { $labels{$vendor}{lc $_}{$mc}{$row}{$chan} = $label } 
+                map { $lh->{$vendor}{lc $_}{$mc}{$row}{$chan} = $label } 
                          @models;
 
             }
@@ -273,7 +273,23 @@ sub parse_dimm_labels
 
     close (LABELS) or die "Error from label db \"$file\" : $!\n";
 
-    return \%labels
+    return $lh;
+}
+
+sub parse_dimm_labels
+{
+    my %labels = ();
+
+    #
+    #  Accrue all DIMM labels from the labels.db file, as
+    #   well as any files under the labels dir
+    # 
+    for my $file ($conf{labeldb}, <$conf{labeldir}/*>) {
+    	next unless -r $file;
+    	parse_dimm_labels_file (\%labels, $file);
+    }
+
+    return \%labels;
 }
 
 sub read_dimm_label
@@ -381,6 +397,6 @@ sub find_prog
 }
 
 sub log_msg   { print STDERR "$prog: ", @_ unless $conf{opt}{quiet}; }
-sub log_error { log_msg ("Error: $@"); }
+sub log_error { log_msg ("Error: @_"); }
 
 # vi: ts=4 sw=4 expandtab

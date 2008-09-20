@@ -1,5 +1,14 @@
 2008-09-19 Mark Grondona <mgrondona@llnl.gov>
 
+	* src/util/edac-ctl.8.in :
+	  Document /etc/edac/labels.d/ directory.
+
+	* src/util/edac-ctl.in :
+	  Allow multiple labeldb files to appear under /etc/edac/labels.d/*.
+	  This is in addition to the existing labels.db file, and 
+	  should allow sites to more easily add DIMM labels to edac
+	  by just dropping a file int /etc/edac/labels.d/.
+
 	* src/util/edac-ctl.in : 
 	  Try to obtain DMI values from sysfs (/sys/class/dmi/id/board*)
 	  first and fall back to dmidecode if this method fails.
