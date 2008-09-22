@@ -65,5 +65,6 @@ fi
 %{_mandir}/*/*
 %{_includedir}/edac.h
 %dir %attr(0755,root,root) %{_sysconfdir}/edac
+%dir %attr(0755,root,root) %{_sysconfdir}/edac/labels.d
 %config(noreplace) %{_sysconfdir}/edac/*
 %{_sysconfdir}/init.d/edac
