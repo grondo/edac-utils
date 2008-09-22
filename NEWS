@@ -1,4 +1,4 @@
-version 0.15 (2008-05-30):
+version 0.15 (2008-09-22):
  - DIMM label information may now be stored in separate files
    under a labels.d directory (e.g. /etc/edac/labels.d/*), in addition
    to the labels.db file.

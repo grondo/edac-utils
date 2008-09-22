@@ -1,3 +1,10 @@
+2008-09-22 Mark Grondona <mgrondona@llnl.gov>
+
+	* : tag v0.15.
+
+	* edac-utils.spec :
+	  Create labels.d directory under /etc/edac as part of RPM.
+
 2008-09-19 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/util/edac-ctl.8.in :
