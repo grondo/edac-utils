@@ -1,3 +1,11 @@
+version 0.15 (2008-05-30):
+ - DIMM label information may now be stored in separate files
+   under a labels.d directory (e.g. /etc/edac/labels.d/*), in addition
+   to the labels.db file.
+ - Preferentially read mainboard information from sysfs if available.
+ - Don't parse dmidecode "System information" section, use 
+   "Board Information" instead.
+
 version 0.14 (2008-05-30):
  - Fix typos in edac-util(1) man page.
  - Remove any extra newlines on EDAC DIMM labels.
