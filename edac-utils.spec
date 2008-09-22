@@ -42,6 +42,8 @@ make %{_smp_mflags} CFLAGS="$RPM_OPT_FLAGS"
 rm -rf "$RPM_BUILD_ROOT"
 mkdir -p "$RPM_BUILD_ROOT"
 DESTDIR="$RPM_BUILD_ROOT" make install
+# Create labels.d dir
+mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/edac/labels.d
 
 %clean
 rm -rf "$RPM_BUILD_ROOT"
@@ -66,5 +68,5 @@ fi
 %{_includedir}/edac.h
 %dir %attr(0755,root,root) %{_sysconfdir}/edac
 %dir %attr(0755,root,root) %{_sysconfdir}/edac/labels.d
-%config(noreplace) %{_sysconfdir}/edac/*
+%config(noreplace) %{_sysconfdir}/edac/labels.db
 %{_sysconfdir}/init.d/edac
