@@ -1,3 +1,8 @@
+2008-09-25 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/etc/labels.db :
+	  Add DIMM labels for ASUSTeK Computer INC. M3A32-MVP DELUXE.
+
 2008-09-22 Mark Grondona <mgrondona@llnl.gov>
 
 	* : tag v0.15.
