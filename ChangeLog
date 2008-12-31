@@ -2,6 +2,10 @@
 
 	* : tag v0.16.
 
+	* src/etc/Makefile.am, src/etc/Makefile.in :
+	  Remove builddir from edac.init install source path.
+	  It doesn't seem to be definied in my version of automake.
+
 	* src/util/edac-util.c :
 	  Support more than two channels, and suppress output
 	  of non-existent channels at runtime.
