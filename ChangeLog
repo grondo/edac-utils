@@ -1,5 +1,9 @@
 2008-12-31 Mark Grondona <mgrondona@llnl.gov>
 
+	* src/util/edac-util.c :
+	  Support more than two channels, and suppress output
+	  of non-existent channels at runtime.
+
 	* src/lib/edac.h :
 	  Increase EDAC_MAX_CHANNELS from 2 to 6.
 

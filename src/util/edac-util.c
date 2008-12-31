@@ -1,5 +1,5 @@
 /*****************************************************************************
- *  $Id$
+ *  $Id: edac-util.c 51 2007-05-07 21:39:23Z grondo $
  *****************************************************************************
  *  Copyright (C) 2005-2007 The Regents of the University of California.
  *  Produced at Lawrence Livermore National Laboratory (cf, DISCLAIMER).
@@ -427,6 +427,7 @@ static void default_report (struct prog_ctx *ctx)
     struct edac_mc_info mci;
     struct edac_csrow_info csi;
     int count = 0;
+    int i;
 
     edac_for_each_mc_info (ctx->edac, mc, mci) {
 
@@ -441,39 +442,29 @@ static void default_report (struct prog_ctx *ctx)
         count += mci.ce_noinfo_count + mci.ue_noinfo_count;
  
         edac_for_each_csrow_info (mc, csrow, csi) {
-            char *label[2] = { "ch0", "ch1" };
-
-            if (csi.channel[0].dimm_label_valid) {
-                label[0] = csi.channel[0].dimm_label;
-            }
-            if (csi.channel[1].dimm_label_valid) {
-                label[1] = csi.channel[1].dimm_label;
-            }
 
             count += csi.ue_count;
 
             if (csi.ue_count || ctx->verbose)
                 fprintf (stdout, 
-                        "%s: %s: %s|%s: %u Uncorrected Errors\n",
-                        mci.id, csi.id, label[0], label[1], csi.ue_count);
+                        "%s: %s: %u Uncorrected Errors\n",
+                        mci.id, csi.id, csi.ue_count);
 
-            if (!csi.channel[0].valid)
-                continue;
+            for (i = 0; i < EDAC_MAX_CHANNELS; i++) {
+                struct edac_channel *ch = &csi.channel[i];
+                
+                if (!ch->valid)
+                    continue;
 
-            count += csi.channel[0].ce_count;
+                if (!ch->dimm_label_valid)
+                    snprintf (ch->dimm_label, EDAC_LABEL_LEN, "ch%d", i);
 
-            if (csi.channel[0].ce_count || ctx->verbose)
-                fprintf (stdout, "%s: %s: %s: %u Corrected Errors\n", 
-                        mci.id, csi.id, label[0], csi.channel[0].ce_count);
+                count += ch->ce_count;
 
-            if (!csi.channel[1].valid)
-                continue;
-
-            count += csi.channel[1].ce_count;
-
-            if (csi.channel[1].ce_count || ctx->verbose)
-                fprintf (stdout, "%s: %s: %s: %u Corrected Errors\n", 
-                        mci.id, csi.id, label[1], csi.channel[1].ce_count);
+                if (ch->ce_count || ctx->verbose)
+                    fprintf (stdout, "%s: %s: %s: %u Corrected Errors\n", 
+                            mci.id, csi.id, ch->dimm_label, ch->ce_count);
+            }
         }
     }
 
@@ -521,39 +512,29 @@ static void full_report (struct prog_ctx *ctx)
     edac_csrow *csrow;
     struct edac_mc_info mci;
     struct edac_csrow_info csi;
+    int i;
 
     edac_for_each_mc_info (ctx->edac, mc, mci) {
         edac_for_each_csrow_info (mc, csrow, csi) {
-            char *label[2] = { "ch0", "ch1" };
 
-            if (csi.channel[0].dimm_label_valid) {
-                label[0] = csi.channel[0].dimm_label;
+
+            for (i = 0; i < EDAC_MAX_CHANNELS; i++) {
+                struct edac_channel *ch = &csi.channel[i];
+                
+                if (!ch->valid)
+                    continue;
+
+                if (!ch->dimm_label_valid)
+                    snprintf (ch->dimm_label, EDAC_LABEL_LEN, "ch%d", i);
+
+                if (ch->ce_count || ctx->verbose)
+                    fprintf (stdout, "%s: %s: %s: %u Corrected Errors\n", 
+                            mci.id, csi.id, ch->dimm_label, ch->ce_count);
+
+                if (!ctx->quiet || csi.channel[1].ce_count)
+                    fprintf (stdout, "%s:%s:%s:CE:%u\n", 
+                            mci.id, csi.id, ch->dimm_label,ch->ce_count);
             }
-            if (csi.channel[1].dimm_label_valid) {
-                label[1] = csi.channel[1].dimm_label;
-            }
-
-            if (!ctx->quiet || csi.ue_count)
-                fprintf (stdout, "%s:%s:all:UE:%u\n", 
-                        mci.id, csi.id, csi.ue_count);
-            if (!ctx->quiet || csi.ce_count)
-                fprintf (stdout, "%s:%s:all:CE:%u\n", 
-                        mci.id, csi.id, csi.ce_count);
-
-
-            if (!csi.channel[0].valid)
-                continue;
-
-            if (!ctx->quiet || csi.channel[0].ce_count)
-                fprintf (stdout, "%s:%s:%s:CE:%u\n", 
-                        mci.id, csi.id, label[0], csi.channel[0].ce_count);
-
-            if (!csi.channel[1].valid)
-                continue;
-
-            if (!ctx->quiet || csi.channel[1].ce_count)
-                fprintf (stdout, "%s:%s:%s:CE:%u\n", 
-                        mci.id, csi.id, label[1], csi.channel[1].ce_count);
 
         }
 
