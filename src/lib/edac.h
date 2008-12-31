@@ -45,7 +45,7 @@
 
 #define EDAC_NAME_LEN      64
 #define EDAC_LABEL_LEN    256
-#define EDAC_MAX_CHANNELS   2
+#define EDAC_MAX_CHANNELS   6
 
 #define edac_for_each_mc_info(__h, __mc, __i) \
     for (edac_handle_reset (__h), __mc = edac_next_mc_info (__h, &__i); \

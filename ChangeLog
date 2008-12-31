@@ -1,3 +1,8 @@
+2008-12-31 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/lib/edac.h :
+	  Increase EDAC_MAX_CHANNELS from 2 to 6.
+
 2008-12-18 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/etc/Makefile.am, src/etc/Makefile.in :
