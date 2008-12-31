@@ -11,7 +11,7 @@ EXTRA_DIST = \
 
 install-data-local:
 	$(INSTALL) -m 755 -d "$(DESTDIR)$(sysconfdir)/init.d"; \
-	$(INSTALL) -m 755 $(srcdir)/edac.init \
+	$(INSTALL) -m 755 $(builddir)/edac.init \
 	    "$(DESTDIR)$(sysconfdir)/init.d/edac"; \
 	$(INSTALL) -m 755 -d "$(DESTDIR)$(sysconfdir)/edac/"; \
 	$(INSTALL) -m 644 $(srcdir)/labels.db "$(DESTDIR)$(sysconfdir)/edac/"; 

@@ -1,3 +1,9 @@
+2008-12-18 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/etc/Makefile.am, src/etc/Makefile.in :
+	  Allow edac-utils to be correctly built and installed
+	  out-of-tree.  Grant Erickson <gerickson at nuovations.com>.
+
 2008-09-25 Mark Grondona <mgrondona@llnl.gov>
 
 	* src/etc/labels.db :
