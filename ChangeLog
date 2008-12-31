@@ -1,5 +1,7 @@
 2008-12-31 Mark Grondona <mgrondona@llnl.gov>
 
+	* : tag v0.16.
+
 	* src/util/edac-util.c :
 	  Support more than two channels, and suppress output
 	  of non-existent channels at runtime.

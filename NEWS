@@ -1,3 +1,10 @@
+Version 0.16 (20080-12-31);
+ - Fix out-of-tree builds of edac-utils.
+ - Support up to 6 channels with edac-utils and libedac. Applications
+    directly linked to libedac will need to be recompiled to take advantage
+    of this change.
+ - Add DIMM labels for ASUSTeK Computer INC. M3A32-MVP DELUXE.
+
 version 0.15 (2008-09-22):
  - DIMM label information may now be stored in separate files
    under a labels.d directory (e.g. /etc/edac/labels.d/*), in addition
