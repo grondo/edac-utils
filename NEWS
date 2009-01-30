@@ -1,3 +1,7 @@
+Version 0.16.1 (2009-01-30);
+ - Fix libedac.so library version, which should not have gone
+    backwards.
+
 Version 0.16 (20080-12-31);
  - Fix out-of-tree builds of edac-utils.
  - Support up to 6 channels with edac-utils and libedac. Applications
