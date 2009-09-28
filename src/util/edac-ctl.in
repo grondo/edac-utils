@@ -38,6 +38,7 @@ my %bus         = ();
 my $prog        = basename $0;
 $conf{labeldb}  = "$sysconfdir/edac/labels.db";
 $conf{labeldir} = "$sysconfdir/edac/labels.d";
+$conf{mbconfig} = "$sysconfdir/edac/mainboard";
 
 
 my $status      = 0;
@@ -212,8 +213,51 @@ sub guess_vendor_model_sysfs {
     return ($vendor, $model);
 }
 
+sub parse_mainboard_config
+{
+    my ($file) = @_;
+    my %hash = ();
+    my $line = 0;
+
+    open (CFG, "$file") or die "Failed to read mainboard config: $file: $!\n";
+    while (<CFG>) {
+        $line++;
+        chomp;                                          # remove newline
+        s/^((?:[^'"#]*(?:(['"])[^\2]*\2)*)*)#.*/$1/;    # remove comments
+        s/^\s+//;                                       # remove leading space
+        s/\s+$//;                                       # remove trailing space
+        next unless length;                             # skip blank lines
+        if (my ($key, $val) = /^\s*([-\w]+)\s*=\s*(.*)/) {
+            $hash{$key}{val} = $val;
+            $hash{$key}{line} = $line;
+            next;
+        }
+        return undef;
+    }
+    close (CFG) or &log_error ("close $file: $!\n");
+    return \%hash;
+}
+
 sub guess_vendor_model {
-    my ($vendor, $model) = &guess_vendor_model_sysfs ();
+    my ($vendor, $model);
+    #
+    #  If mainboard config file exists then parse it 
+    #   to get the vendor and model information.
+    #
+    if (-f $conf{mbconfig} ) {
+        my $cfg = &parse_mainboard_config ($conf{mbconfig});
+
+        #  If mainboard config file specified a script, then try to
+        #   run the specified script or executable:
+        #
+        if ($cfg->{"script"}) {
+            $cfg = &parse_mainboard_config ("$cfg->{script}{val} |");
+            die "Failed to run mainboard script\n" if (!$cfg);
+        }
+        return ($cfg->{vendor}{val}, $cfg->{model}{val});
+    }
+
+    ($vendor, $model) = &guess_vendor_model_sysfs ();
 
     return ($vendor, $model) if ($vendor && $model);
 
