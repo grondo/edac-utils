@@ -68,6 +68,25 @@ Vendor: Supermicro
     DIMMC 2A: 3.0.0, 3.1.0; DIMMC 2B: 3.0.1, 3.1.1;
     DIMMC 1A: 3.2.0, 3.3.0; DIMMC 1B: 3.2.1, 3.3.1;
 
+ Model: H8QM3
+    DIMMA 4A: 0.0.0, 0.1.0; DIMMA 4B: 0.0.1, 0.1.1;
+    DIMMA 3A: 0.2.0, 0.3.0; DIMMA 3B: 0.2.1, 0.3.1;
+    DIMMB 4A: 1.0.0, 1.1.0; DIMMB 4B: 1.0.1, 1.1.1;
+    DIMMB 3A: 1.2.0, 1.3.0; DIMMB 3B: 1.2.1, 1.3.1;
+    DIMMD 4A: 2.0.0, 2.1.0; DIMMD 4B: 2.0.1, 2.1.1;
+    DIMMD 3A: 2.2.0, 2.3.0; DIMMD 3B: 2.2.1, 2.3.1;
+    DIMMC 4A: 3.0.0, 3.1.0; DIMMC 4B: 3.0.1, 3.1.1;
+    DIMMC 3A: 3.2.0, 3.3.0; DIMMC 3B: 3.2.1, 3.3.1;
+
+    DIMMA 2A: 0.4.0, 0.5.0; DIMMA 2B: 0.4.1, 0.5.1;
+    DIMMA 1A: 0.6.0, 0.7.0; DIMMA 1B: 0.6.1, 0.7.1;
+    DIMMB 2A: 1.4.0, 1.5.0; DIMMB 2B: 1.4.1, 1.5.1;
+    DIMMB 1A: 1.6.0, 1.7.0; DIMMB 1B: 1.6.1, 1.7.1;
+    DIMMD 2A: 2.4.0, 3.5.0; DIMMD 2B: 2.4.1, 3.5.1;
+    DIMMD 1A: 2.6.0, 3.7.0; DIMMD 1B: 2.6.1, 3.7.1;
+    DIMMC 2A: 3.4.0, 2.5.0; DIMMC 2B: 3.4.1, 2.5.1;
+    DIMMC 1A: 3.6.0, 2.7.0; DIMMC 1B: 3.6.1, 2.7.1;
+
   Model: H8DA3-2
     DIMMA 1B: 0.3.1; DIMMA 1A: 0.3.0;
     DIMMA 2B: 0.1.1; DIMMA 2A: 0.1.0;
