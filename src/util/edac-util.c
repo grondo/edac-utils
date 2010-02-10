@@ -210,6 +210,8 @@ prog_ctx_fini (struct prog_ctx *ctx)
         list_destroy (ctx->reports);
     if (ctx->edac)
         edac_handle_destroy (ctx->edac);
+    if (ctx->progname)
+        free (ctx->progname);
     return;
 }
 
@@ -276,6 +278,8 @@ parse_cmdline (struct prog_ctx *ctx, int ac, char **av)
 
     if (!(ctx->reports = report_list_create (l)))
         exit (1);
+
+    list_destroy (l);
 
     return;
 }
