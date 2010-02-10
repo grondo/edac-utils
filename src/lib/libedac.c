@@ -172,6 +172,7 @@ void edac_handle_destroy (edac_handle *edac)
         sysfs_close_device_tree (edac->dev); 
     if (edac->pci)
         sysfs_close_device (edac->pci);
+    free (edac);
     return;
 }
 

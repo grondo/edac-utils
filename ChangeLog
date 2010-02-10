@@ -1,3 +1,8 @@
+2010-02-10 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/lib/libedac.c (edac_handle_destroy) : Fix memory leak 
+	  reported by Ira W. Snyder <iws at ovro dot caltech dot edu>.
+
 2009-01-30 Mark Grondona <mgrondona@llnl.gov>
 
 	* : tag v0.16.1.
