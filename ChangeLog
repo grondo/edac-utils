@@ -1,5 +1,7 @@
 2010-02-10 Mark Grondona <mgrondona@llnl.gov>
 
+	* :tag v0.17.
+
 	* src/util/edac-util.c : 
 	  Fix a couple  edac-util memory leaks.
 

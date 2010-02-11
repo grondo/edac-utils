@@ -1,8 +1,8 @@
   Name:        edac-utils
-  Version:     0.16.1
+  Version:     0.17
   Release:     1
-  Date:        2009-01-30
+  Date:        2010-02-10
   Author:      Mark Grondona <mgrondona@llnl.gov>
   LT_Current:  2
-  LT_Revision: 0
+  LT_Revision: 1
   LT_Age:      1
