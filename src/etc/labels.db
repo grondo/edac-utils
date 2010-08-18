@@ -100,6 +100,13 @@ Vendor: Dell Computer Corporation
     DIMM_2A: 0.3.0; DIMM_2B: 0.3.1;
     DIMM_3A: 0.1.0; DIMM_3B: 0.1.1;
 
+  Model: 0GW08P
+     CPU0_DIMM0_CHA: 0.0.0, 0.0.1
+     CPU0_DIMM0_CHB: 0.1.0, 0.1.1
+     CPU0_DIMM0_CHC: 0.2.0, 0.2.1
+     CPU1_DIMM0_CHA: 1.0.0, 1.0.1
+     CPU1_DIMM0_CHB: 1.1.0, 1.1.1
+     CPU1_DIMM0_CHC: 1.2.0, 1.2.1
 
 Vendor: ASUSTeK Computer INC.
 
