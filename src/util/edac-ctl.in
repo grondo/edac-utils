@@ -165,6 +165,7 @@ sub get_mainboard_info {
 
 sub guess_vendor_model_dmidecode {
     my ($vendor, $model);
+    my ($system_vendor, $system_model);
     my $line = 0;
 
     $< == 0 || die "Must be root to run dmidecode\n";
@@ -177,20 +178,30 @@ sub guess_vendor_model_dmidecode {
     while (<DMI>) {
         $line++;
 
-        /^(\s*)(board|base board) information/i || next LINE;
+        /^(\s*)(board|base board|system) information/i || next LINE;
         my $indent = $1;
+	my $type = $2;
 
         while ( <DMI> ) {
             /^(\s*)/;
             $1 lt $indent && last LINE;
             $indent = $1;
-            /(?:manufacturer|vendor):\s*(.*\S)\s*/i && ( $vendor = $1 );
-            /product(?: name)?:\s*(.*\S)\s*/i       && ( $model  = $1 );
+            if ($type eq "system") {
+                /(?:manufacturer|vendor):\s*(.*\S)\s*/i && ( $system_vendor = $1 );
+                /product(?: name)?:\s*(.*\S)\s*/i       && ( $system_model  = $1 );
+            } else {
+                /(?:manufacturer|vendor):\s*(.*\S)\s*/i && ( $vendor = $1 );
+                /product(?: name)?:\s*(.*\S)\s*/i       && ( $model  = $1 );
+            }
             last LINE if ($vendor && $model);
         }
     }
 
     close (DMI);
+
+    $vendor = $system_vendor if ($vendor eq "");
+    $model = $system_model if ($model eq "");
+
     return ($vendor, $model);
 }
 
