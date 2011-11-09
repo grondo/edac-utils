@@ -1,5 +1,8 @@
 2011-11-09 Mark Grondona <mgrondona@llnl.gov>
 
+	* src/util/edac-util.c :
+	  Do not print "No errors to report" if --quiet.
+
 	* src/etc/labels.db :
 	  Add labels for Intel Corporation S2600JF and Supermicro H8QG6.
 

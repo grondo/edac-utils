@@ -472,7 +472,7 @@ static void default_report (struct prog_ctx *ctx)
         }
     }
 
-    if (!count && !ctx->verbose)
+    if (!count && !ctx->quiet)
         fprintf (stdout, "edac-util: No errors to report.\n");
 
     edac_handle_reset (ctx->edac);
