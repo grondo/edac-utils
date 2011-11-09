@@ -1,3 +1,7 @@
+Version 0.18 (2011-11-09);
+- Do not print "No errors to report" with edac-util --quiet
+- Add DIMM labels for Intel S2600JF and Supermicro H8QG6
+
 Version 0.17 (2010-02-10);
 - Fix memory leaks in libedac and edac-util(1).
 
