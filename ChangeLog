@@ -1,3 +1,8 @@
+2011-11-09 Mark Grondona <mgrondona@llnl.gov>
+
+	* src/etc/labels.db :
+	  Add labels for Intel Corporation S2600JF and Supermicro H8QG6.
+
 2010-02-10 Mark Grondona <mgrondona@llnl.gov>
 
 	* :tag v0.17.
