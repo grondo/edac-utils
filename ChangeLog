@@ -1,3 +1,9 @@
+2012-02-27 Mauro Carvalho Chehab <mchehab@redhat.com>
+
+	* src/util/edac-util.c :
+	  Add a --layout option to edac-util(8) to display the
+	  DIMM layout.
+
 2011-11-09 Mark Grondona <mgrondona@llnl.gov>
 
 	* : tag v0.18.

@@ -9,6 +9,7 @@ Source:    %{name}-%{version}.tgz
 BuildRoot: %{_tmppath}/%{name}-%{version}
 
 %{?el5:%define _with_libsysfs 1}
+%{?el6:%define _with_libsysfs 1}
 
 %if 0%{?_with_libsysfs}
 BuildRequires: libsysfs-devel
