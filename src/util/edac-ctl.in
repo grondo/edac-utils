@@ -26,7 +26,9 @@
 
 use strict;
 use File::Basename;
+use File::Find;
 use Getopt::Long;
+use POSIX;
 
 my $prefix      = "@prefix@";
 my $sysconfdir  = "@sysconfdir@";
@@ -35,11 +37,16 @@ my $modprobe    = find_prog ("modprobe")  or exit (1);
 
 my %conf        = ();
 my %bus         = ();
+my %dimms       = ();
+my @layers;
+my @max_pos;
+# Size of each printed dimm size - FIXME: calculate it dynamically
+my $item_size = 12;
+
 my $prog        = basename $0;
 $conf{labeldb}  = "$sysconfdir/edac/labels.db";
 $conf{labeldir} = "$sysconfdir/edac/labels.d";
 $conf{mbconfig} = "$sysconfdir/edac/mainboard";
-
 
 my $status      = 0;
 
@@ -52,29 +59,32 @@ Usage: $prog [OPTIONS...]
  --register-labels  Load Motherboard DIMM labels into EDAC driver.
  --delay=N          Delay N seconds before writing DIMM labels.
  --labeldb=DB       Load label database from file DB.
+ --layout           Display the memory layout.
  --help             This help message.
 EOF
 
 parse_cmdline();
 
-if (  $conf{opt}{mainboard} || $conf{opt}{print_labels} 
-   || $conf{opt}{register_labels}) {
+if (  $conf{opt}{mainboard} || $conf{opt}{print_labels}
+   || $conf{opt}{register_labels} || $conf{opt}{display_memory_layout}) {
 
     get_mainboard_info();
 
     if ($conf{opt}{mainboard} eq "report") {
-        print "$prog: mainboard: ", 
+        print "$prog: mainboard: ",
               "$conf{mainboard}{vendor} $conf{mainboard}{model}\n";
     }
 
-    if ($conf{opt}{print_labels}) { 
+    if ($conf{opt}{print_labels}) {
         print_dimm_labels ();
 
     }
     if ($conf{opt}{register_labels}) {
         register_dimm_labels ();
-    } 
-
+    }
+    if ($conf{opt}{display_memory_layout}) {
+	display_memory_layout ();
+    }
 }
 
 if ($conf{opt}{status}) {
@@ -92,6 +102,7 @@ sub parse_cmdline
     $conf{opt}{status} = 0;
     $conf{opt}{quiet} = 0;
     $conf{opt}{delay} = 0;
+    $conf{opt}{display_memory_layout} = 0;
 
     my $rref = \$conf{opt}{report};
     my $mref = \$conf{opt}{mainboard};
@@ -104,11 +115,12 @@ sub parse_cmdline
                          "register-labels" => \$conf{opt}{register_labels},
                          "delay:s" =>         \$conf{opt}{delay},
                          "labeldb=s" =>       \$conf{labeldb},
-                         "status" =>          \$conf{opt}{status});
-        
+                         "status" =>          \$conf{opt}{status},
+			 "layout" =>          \$conf{opt}{display_memory_layout});
+
     usage(1) if !$rc;
 
-    usage (0) if !grep $conf{opt}{$_}, keys %{$conf{opt}}; 
+    usage (0) if !grep $conf{opt}{$_}, keys %{$conf{opt}};
 
     if ($conf{opt}{delay} && !$conf{opt}{register_labels}) {
         log_error ("Only use --delay with --register-labels\n");
@@ -158,7 +170,7 @@ sub get_mainboard_info {
     if (!$vendor || !$model) {
         ($vendor, $model) = guess_vendor_model ();
     }
-    
+
     $conf{mainboard}{vendor} = $vendor;
     $conf{mainboard}{model}  = $model;
 }
@@ -252,7 +264,7 @@ sub parse_mainboard_config
 sub guess_vendor_model {
     my ($vendor, $model);
     #
-    #  If mainboard config file exists then parse it 
+    #  If mainboard config file exists then parse it
     #   to get the vendor and model information.
     #
     if (-f $conf{mbconfig} ) {
@@ -282,13 +294,13 @@ sub parse_dimm_labels_file
     my $vendor = "";
     my @models = ();
 
-    open (LABELS, "$file") 
+    open (LABELS, "$file")
         or die "Unable to open label database: $file: $!\n";
 
     while (<LABELS>) {
         $line++;
         next if /^#/;
-        chomp; 
+        chomp;
         s/^\s+//;
         s/\s+$//;
         next unless length;
@@ -304,7 +316,7 @@ sub parse_dimm_labels_file
             next;
         }
 
-        # Allow multiple labels to be specified on a single line, 
+        # Allow multiple labels to be specified on a single line,
         #  separated by ;
         for my $str (split /;/) {
             $str =~ s/^\s*(.*)\s*$/$1/;
@@ -319,7 +331,7 @@ sub parse_dimm_labels_file
             for my $target (split (/[, ]+/, $info)) {
                 my ($mc, $row, $chan) = ($target =~ /(\d+)\.(\d+)\.(\d+)/);
 
-                map { $lh->{$vendor}{lc $_}{$mc}{$row}{$chan} = $label } 
+                map { $lh->{$vendor}{lc $_}{$mc}{$row}{$chan} = $label }
                          @models;
 
             }
@@ -338,7 +350,7 @@ sub parse_dimm_labels
     #
     #  Accrue all DIMM labels from the labels.db file, as
     #   well as any files under the labels dir
-    # 
+    #
     for my $file ($conf{labeldb}, <$conf{labeldir}/*>) {
     	next unless -r $file;
     	parse_dimm_labels_file (\%labels, $file);
@@ -382,7 +394,7 @@ sub print_dimm_labels
         return;
     }
 
-    
+
     printf $fh $format, "LOCATION", "CONFIGURED LABEL", "SYSFS CONTENTS";
 
     for my $mc (sort keys %{$$lref{$vendor}{$model}}) {
@@ -439,6 +451,193 @@ sub register_dimm_labels
         }
     }
     return 1;
+}
+
+sub parse_dimm_nodes
+{
+    my $file = $File::Find::name;
+
+    if (($file =~ /max_location$/)) {
+        open IN, $file;
+        my $location = <IN>;
+        close IN;
+        my @temp = split(/ /, $location);
+        $layers[0] = "mc";
+        $max_pos[0] = 0;
+        for (my $i = 0; $i < scalar(@temp); $i += 2) {
+            $layers[$i / 2 + 1] = $temp[$i];
+            $max_pos[$i / 2 + 1] = $temp[$i + 1];
+        }
+        return;
+    }
+    return if (!($file =~ /dimm_location$/));
+
+    my $mc = $file;
+    $mc =~ s,.*mc(\d+).*,$1,;
+
+    my $dimm = $file;
+    $dimm =~ s,.*dimm(\d+).*,$1,;
+
+    open IN, $file;
+    my $location = <IN>;
+    close IN;
+
+    my @pos;
+
+    # Get the name of the hierarchy labels
+    if (!@layers) {
+        my @temp = split(/ /, $location);
+        $max_pos[0] = 0;
+        $layers[0] = "mc";
+        for (my $i = 0; $i < scalar(@temp); $i += 2) {
+            $layers[$i / 2 + 1] = $temp[$i];
+            $max_pos[$i / 2 + 1] = 0;
+        }
+    }
+
+    my @temp = split(/ /, $location);
+    for (my $i = 1; $i < scalar(@temp); $i += 2) {
+        $pos[$i / 2] = $temp[$i];
+
+        if ($pos[$i / 2] > $max_pos[$i / 2]) {
+            $max_pos[$i / 2 + 1] = $pos[$i / 2];
+        }
+    }
+    if ($mc > $max_pos[0]) {
+        $max_pos[0] = $mc;
+    }
+
+    # Get DIMM size
+
+    $file =~ s/dimm_location/dimm_size/;
+    open IN, $file;
+    my $size = <IN>;
+    close IN;
+
+    my $str_loc = join(':', $mc, @pos);
+
+    $dimms{$str_loc} = $size;
+}
+
+sub dimm_display_layer($@);
+
+sub dimm_display_layer($@)
+{
+    my $layer = shift;
+    my @pos = @_;
+
+    $layer--;
+    if ($layer < 0) {
+        my $str_loc = join(':', @pos);
+        my $size = $dimms{$str_loc};
+        my $s = sprintf "  %4i MB  |", $size;
+        return $s;
+    }
+
+    my $s;
+    for (my $i = 0; $i <= $max_pos[$layer]; $i++) {
+        $pos[$layer] = $i;
+        $s .= dimm_display_layer($layer, @pos);
+    }
+
+    return $s;
+}
+
+sub dimm_display_layer_header($$)
+{
+    my $n_items = 1;
+    my $scale;
+    my $layer = shift;
+    my $tot_items = shift;
+
+    my $s;
+    for (my $i = 0; $i <= $layer; $i++) {
+        $n_items *= $max_pos[$i] + 1;
+    }
+    $scale = $tot_items / $n_items;
+
+    my $d = 0;
+    for (my $i = 0; $i < $n_items; $i++) {
+        my $val = sprintf("%s%d", $layers[$layer], $d);
+        $val = substr($val, 0, $scale * $item_size - 2);
+        my $fillsize =  $scale * $item_size - 1 - length($val);
+        $s .= "|";
+        $s .= " " x ($fillsize / 2);
+        $s .= $val;
+        $s .= " " x ($fillsize - floor($fillsize / 2));
+
+        $d++;
+        if ($d > $max_pos[$layer]) {
+            $d = 0;
+        }
+    }
+    $s .= "|";
+    return $s;
+}
+
+sub dimm_display_mem()
+{
+    my @pos = @max_pos;
+    my $sep = "";
+    my $tot_items = 1;
+    my $first = 1;
+
+    for (my $i = 0; $i < scalar(@pos) - 1; $i++) {
+        $pos[$i] = 0;
+        $tot_items *= $max_pos[$i] + 1;
+    }
+
+    for (my $d = $max_pos[scalar(@max_pos) - 1]; $d >= 0; $d--) {
+        my $len;
+
+        my $s = sprintf("%s%d: |", $layers[scalar(@max_pos) - 1], $d);
+        my $p1 = length($s) - 1;
+
+        $pos[scalar(@pos) - 1] = $d;
+        $s .= dimm_display_layer(scalar(@pos) - 1, @pos);
+        $len += length($s);
+
+        $sep = "-" x $p1;
+        $sep .= "+";
+        $sep .= "-" x ($len - $p1 - 2);
+        $sep .= "+";
+
+        if ($first) {
+            my $sep1 = " " x $p1;
+            $sep1 .= "+";
+            $sep1 .= "-" x ($len - $p1 - 2);
+            $sep1 .= "+";
+            printf "$sep1\n";
+            for (my $layer = 0; $layer < scalar(@pos) - 1; $layer++) {
+                my $s = sprintf("%s%d: |", $layers[scalar(@max_pos) - 1], 0);
+                my $p1 = length($s) - 1;
+                my $msg = " " x $p1;
+                $msg .= dimm_display_layer_header($layer, $tot_items);
+                printf "$msg\n";
+            }
+            $first = 0;
+        }
+
+        if ((($max_pos[scalar(@max_pos) - 1] - $d) % 2 == 0)) {
+            printf "$sep\n";
+        }
+
+        printf "$s\n";
+    }
+    printf "$sep\n";
+}
+
+sub display_memory_layout
+{
+    my $sysfs_dir = "/sys/devices/system/edac/mc";
+
+    find({wanted => \&parse_dimm_nodes, no_chdir => 1}, $sysfs_dir);
+
+    if (!scalar(%dimms)) {
+        log_error ("No dimm layout information. Old kernel?\n");
+    } else {
+        dimm_display_mem();
+    }
 }
 
 sub find_prog
