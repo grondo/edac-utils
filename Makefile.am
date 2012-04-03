@@ -2,7 +2,7 @@
 
 ACLOCAL_AMFLAGS =               -I config
 CONFIG_STATUS_DEPENDENCIES =    META
-EXTRA_DIST =                    AUTHORS COPYING ChangeLog DISCLAIMER \
+EXTRA_DIST =                    AUTHORS COPYING DISCLAIMER \
                                 INSTALL NEWS README edac-utils.spec META
 SUBDIRS =                       src
 

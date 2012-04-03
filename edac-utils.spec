@@ -61,7 +61,7 @@ fi
 
 %files
 %defattr(-,root,root,0755)
-%doc README NEWS ChangeLog DISCLAIMER
+%doc README NEWS DISCLAIMER
 %{_sbindir}/edac-ctl
 %{_bindir}/edac-util
 %{_libdir}/*
