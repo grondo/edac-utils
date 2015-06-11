@@ -106,4 +106,3 @@ utility will most often require that \fBedac-ctl\fR be run as root.
 
 .SH SEE ALSO
 \fBedac\fR(3), \fBedac-util\fR(1)
-

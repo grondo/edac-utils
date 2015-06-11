@@ -13,4 +13,3 @@ files to load the appropriate EDAC driver for a given chipset and
 register motherboard DIMM labels if they are configured. An init
 script is also provided which uses edac-ctl to initialize EDAC at
 system startup.
-
