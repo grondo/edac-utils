@@ -184,3 +184,10 @@ Vendor: Intel Corporation
     DIMM_C1: 0.2.0; DIMM_D1: 0.3.0;
     DIMM_E1: 1.0.0; DIMM_F1: 1.1.0;
     DIMM_G1: 1.2.0; DIMM_H1: 1.3.0;
+
+Vendor: MiTAC
+  Model: HAWK
+    DIMM 1: 0.0.0; DIMM 8: 0.7.0;
+    DIMM 2: 0.1.0; DIMM 7: 0.6.0;
+    DIMM 3: 0.2.0; DIMM 6: 0.5.0;
+    DIMM 4: 0.3.0; DIMM 5: 0.4.0;
