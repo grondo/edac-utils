@@ -213,6 +213,9 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}:${UNAME_VERSION}" in
     luna88k:OpenBSD:*:*)
     	echo m88k-unknown-openbsd${UNAME_RELEASE}
 	exit 0 ;;
+    loongarch*:OpenBSD:*:*)
+        echo loongarch64-unknown-openbsd${UNAME_RELEASE}
+        exit 0 ;;
     mac68k:OpenBSD:*:*)
 	echo m68k-unknown-openbsd${UNAME_RELEASE}
 	exit 0 ;;
@@ -924,6 +927,9 @@ EOF
     x86_64:Linux:*:*)
 	echo x86_64-unknown-linux-gnu
 	exit 0 ;;
+    loongarch*:Linux:*:*)
+        echo loongarch64-unknown-linux-gnu
+        exit 0 ;;
     i*86:Linux:*:*)
 	# The BFD linker knows what the default object file format is, so
 	# first see if it will tell us. cd to the root directory to prevent
