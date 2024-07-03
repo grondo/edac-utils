@@ -282,4 +282,3 @@ edac_for_each_mc_info (ctx->edac, mc, mci) {
 .PP
 .SH SEE ALSO
 \fBedac-util\fR(8), \fBedac-ctl\fR(8)
-

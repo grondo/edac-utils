@@ -23,5 +23,3 @@ libedac_la_LIBADD = \
 libedac_la_SOURCES = \
 	libedac.c \
 	edac.h
-
-
