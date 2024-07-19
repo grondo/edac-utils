@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>com.github.grondo.edac-utils</id>
+  <metadata_license>MIT</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>edac-utils</name>
+  <summary>report kernel-detected PCI and ECC RAM errors</summary>
+  <description>
+    <p>This package contains the user-space utilities for use with the
+    EDAC kernel subsystem.  EDAC (Error Detection and Correction) is a
+    set of Linux kernel modules for handling hardware-related errors.
+    Currently its major focus is ECC memory error handling. However it
+    also detects and reports PCI bus parity errors.</p>
+
+    <p>PCI parity errors are supported on all architectures (and are a
+    mandatory part of the PCI specification).</p>
+
+    <p>Main memory ECC drivers are memory controller specific.  At the
+    time of writing, drivers exist for many x86-specific chipsets and
+    CPUs, and some PowerPC, and MIPS systems.</p>
+
+    <p>This package provides command lines tools</p>
+  </description>
+  <url type="homepage">https://github.com/grondo/edac-utils</url>
+  <provides>
+    <modalias>lkmodule:amd64_edac</modalias>
+    <modalias>cpu:type:x86,ven0002fam001Amod*:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0002fam0019mod*:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0009fam0018mod*:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0002fam0017mod*:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0002fam0016mod*:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0002fam0015mod*:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0002fam0010mod*:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0002fam000Fmod*:feature:*</modalias>
+    <modalias>lkmodule:e752x_edac</modalias>
+    <modalias>pci:v00008086d000035B0sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00003592sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000359Esv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00003590sv*sd*bc*sc*i*</modalias>
+    <modalias>lkmodule:edac_mce_amd</modalias>
+    <modalias>lkmodule:i10nm_edac</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod00B6:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod00AF:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod00AD:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod00CF:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod008F:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod006C:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod006A:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod006A:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod0086:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod0086:feature:*</modalias>
+    <modalias>lkmodule:i3000_edac</modalias>
+    <modalias>pci:v00008086d00002778sv*sd*bc*sc*i*</modalias>
+    <modalias>lkmodule:i3200_edac</modalias>
+    <modalias>pci:v00008086d000029F0sv*sd*bc*sc*i*</modalias>
+    <modalias>lkmodule:i5100_edac</modalias>
+    <modalias>pci:v00008086d000065F0sv*sd*bc*sc*i*</modalias>
+    <modalias>lkmodule:i5400_edac</modalias>
+    <modalias>pci:v00008086d00004030sv*sd*bc*sc*i*</modalias>
+    <modalias>lkmodule:i7300_edac</modalias>
+    <modalias>pci:v00008086d0000360Csv*sd*bc*sc*i*</modalias>
+    <modalias>lkmodule:i7core_edac</modalias>
+    <modalias>pci:v00008086d00002C90sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000342Esv*sd*bc*sc*i*</modalias>
+    <modalias>lkmodule:i82975x_edac</modalias>
+    <modalias>pci:v00008086d0000277Csv*sd*bc*sc*i*</modalias>
+    <modalias>lkmodule:ie31200_edac</modalias>
+    <modalias>pci:v00008086d00003ECAsv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00003EC6sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00003EC2sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00003E33sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00003E32sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00003E31sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00003E30sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00003E1Fsv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00003E18sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00003E0Fsv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00005918sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000191Fsv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00001918sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000190Fsv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00000C08sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00000C04sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000015Csv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00000158sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00000150sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000010Csv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00000108sv*sd*bc*sc*i*</modalias>
+    <modalias>lkmodule:igen6_edac</modalias>
+    <modalias>pci:v00008086d00007D14sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00007D02sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00007D01sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00007D24sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00007D23sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00007D22sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00007D21sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000A718sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000A716sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000A708sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000A707sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000A706sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004632sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000467Csv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004679sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004678sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004677sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004675sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004674sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004673sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000461Csv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000461Bsv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004617sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004614sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004641sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004621sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004602sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004601sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00009A14sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000458Dsv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004589sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004585sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004581sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004536sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004534sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000451Asv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004518sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004532sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000452Esv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000452Csv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004516sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d0000452Asv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004528sv*sd*bc*sc*i*</modalias>
+    <modalias>pci:v00008086d00004514sv*sd*bc*sc*i*</modalias>
+    <modalias>lkmodule:pnd2_edac</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod005F:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod005C:feature:*</modalias>
+    <modalias>lkmodule:sb_edac</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod0085:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod0057:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod0056:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod004F:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod003F:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod003E:feature:*</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod002D:feature:*</modalias>
+    <modalias>lkmodule:skx_edac</modalias>
+    <modalias>cpu:type:x86,ven0000fam0006mod0055:feature:*</modalias>
+    <modalias>lkmodule:x38_edac</modalias>
+    <modalias>pci:v00008086d000029E0sv*sd*bc*sc*i*</modalias>
+  </provides>
+</component>
