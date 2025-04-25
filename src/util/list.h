@@ -18,8 +18,7 @@
  *  more details.
  *
  *  You should have received a copy of the GNU General Public License along
- *  with LSD-Tools; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *  with LSD-Tools; if not, see <https://www.gnu.org/licenses/>.
  *****************************************************************************
  *  This file is originally  from LSD-Tools, the LLNL Software 
  *  Development Toolbox.

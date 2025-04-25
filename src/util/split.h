@@ -19,8 +19,7 @@
  *  details.
  *  
  *  You should have received a copy of the GNU General Public License along
- *  with Pdsh; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *  with Pdsh; if not, see <https://www.gnu.org/licenses/>.
 \*****************************************************************************/
 #ifndef _SPLIT_H
 #define _SPLIT_H
